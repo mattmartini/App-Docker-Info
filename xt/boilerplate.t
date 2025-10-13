@@ -49,9 +49,13 @@ TODO: {
 
     not_in_file_ok( Changes => "placeholder date/time" => qr(Date/time) );
 
-    module_boilerplate_ok('lib/MERM/Base.pm');
-    module_boilerplate_ok('lib/MERM/Base/Syntax.pm');
-    module_boilerplate_ok('lib/MERM/Base/Utils.pm');
+    module_boilerplate_ok('lib/App/Docker/Info.pm');
+    module_boilerplate_ok('lib/App/Docker/Info/Syntax.pm');
+    module_boilerplate_ok('lib/App/Docker/Info/Utils.pm');
+    module_boilerplate_ok('lib/App/Docker/Info/Image.pm');
+    module_boilerplate_ok('lib/App/Docker/Info/Container.pm');
+    module_boilerplate_ok('lib/App/Docker/Info/Volume.pm');
+    module_boilerplate_ok('lib/App/Docker/Info/System.pm');
 
 }
 

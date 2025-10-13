@@ -6,12 +6,17 @@ use warnings;
 use version;
 use Test::More;
 
-plan tests => 29;
+plan tests => 39;
 
 BEGIN {
     my @modules = qw(
         App::Docker::Info
         App::Docker::Info::Syntax
+        App::Docker::Info::Utils
+        App::Docker::Info::Image
+        App::Docker::Info::Container
+        App::Docker::Info::Volume
+        App::Docker::Info::System
     );
 
     foreach my $module (@modules) {

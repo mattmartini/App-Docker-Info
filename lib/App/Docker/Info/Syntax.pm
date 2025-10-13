@@ -11,7 +11,7 @@ use open qw(:std :utf8);
 use Import::Into;
 use Module::Runtime;
 
-use version; our $VERSION = version->declare("v0.1.0");
+use version; our $VERSION = version->declare("v0.2.0");
 
 sub importables {
     my ($class) = @_;
@@ -52,7 +52,7 @@ App::Docker::Info::Syntax - Provide consistent feature setup.
 
 =head1 VERSION
 
-Version v0.1.0
+Version v0.2.0
 
 =head1 SYNOPSIS
 
