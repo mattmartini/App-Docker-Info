@@ -1,0 +1,395 @@
+#!/usr/bin/env bash
+################################################################################
+#                                                                              #
+#   wrapper for git commit using conventional commits                          #
+#                                                                              #
+#   $Id: git-cc 1.0.15 2024-09-06 10:48:04 martini Exp $                       #
+#                                                                              #
+#   Copyright © 2024  Matt Martini <matt@imaginarywave.com>                    #
+#   This program is free software: distributed under GNU GPLv3, see LICENSE.   #
+#                                                                              #
+################################################################################
+# shellcheck disable=SC2154
+
+set -Eeuo pipefail
+
+trap clean_exit EXIT
+trap error_exit SIGINT SIGTERM
+trap clear_err_msg SIGURG
+#trap SIGWINCH
+
+
+source ${BASH_FUNCTION_DIR}/color_fns.sh
+source ${BASH_FUNCTION_DIR}/term.sh
+source ${BASH_FUNCTION_DIR}/text_fns.sh
+source ${BASH_FUNCTION_DIR}/utility_fns.sh
+
+
+usage() {
+  cat <<'EOF'
+Usage: git cc <list of staged files to commit | -a>
+
+Conventional Commit wrapper for git commit
+
+Input commit type, scope, description, and breaking indicator.
+Optionally, edit commit message.
+EOF
+exit 0
+}
+
+
+clean_exit() {
+  trap - EXIT
+  [[ $tempdir ]] && rm -rf -- "${tempdir}"
+  t_restore_screen
+  t_cursor_visible
+}
+
+
+error_exit() {
+  trap - SIGINT SIGTERM ERR
+  clean_exit
+  printf "\n%s\n" "${Red}Commit Aborted. ${NC}No changes made."
+  exit 1
+}
+
+
+error_message() {
+  err_msg="$1"
+  t_save_cursor_pos
+  t_cursor_last
+  t_clear_to_eol
+  printf "%s %s" "${BLACK}${BGred}Error:${NC}" "${Red}${err_msg}${NC}"
+  t_restore_cursor_pos
+  sleep 2 && kill -SIGURG $$
+}
+
+
+clear_err_msg() {
+  # trap - SIGURG # don't clear trap, allows for more than one error
+  t_save_cursor_pos
+  t_cursor_last
+  t_clear_to_eol
+  t_restore_cursor_pos
+}
+
+
+create_temp_dir() {
+  unset -v tempdir
+  tempdir=$(mktemp -d -p "${TMPDIR:-/tmp}" -t "//git-cc.$$" || { printf "%s\n" "${Red}Error: creating temporary dir failed.${NC}" >&2; exit 1; })
+}
+
+
+create_temp_file() {
+  create_temp_dir
+  unset -v tempfile
+  tempfile=$(mktemp -p "${tempdir}" -t "commit_message.$$" || { printf "%s\n" "${Red}Error: creating temporary file failed.${NC}" >&2; exit 1; })
+}
+
+
+print_banner() {
+  local banner="Git Conventional Commit:"
+  t_goto $mid_line 0
+  printf "%s" "${Magenta}${UNDERSCORE}${banner}${NC}"
+}
+
+
+print_commit_message() {
+  commit_message="${commit_type}"
+  [[ $commit_scope != '' ]] && commit_message+="(${commit_scope})"
+  [[ $commit_breaks == 1 ]] && commit_message+='!'
+  [[ $commit_type ]] && commit_message+=': '
+  commit_message+="${commit_desc}"
+  t_goto $commit_line 0
+  printf "%s" "${Blue}${commit_message}${NC}"
+}
+
+
+menu_input() {
+  # IFS=$'\037' # ascii unit separator
+  local key
+  IFS=$'\037' read -rsn1 key 2>/dev/null >&2
+  if [[ $key = ''         ]]; then echo 'enter'
+  elif [[ $key = $'\x9'   ]]; then echo 'tab'
+  elif [[ $key = $'\x20'  ]]; then echo 'space'
+  elif [[ $key = 'k'      ]]; then echo 'up'
+  elif [[ $key = 'j'      ]]; then echo 'down'
+  elif [[ $key = 'l'      ]]; then echo 'right'
+  elif [[ $key = 'h'      ]]; then echo 'left'
+  elif [[ $key = 'd'      ]]; then echo 'disp'
+  elif [[ $key =~ ^[0-9]$ ]]; then echo "$key"
+  elif [[ $key = $'\x1b'  ]]; then
+    read -rsn2 key
+    if [[ $key = '[A'  ]]; then echo 'up'
+    elif [[ $key = '[B'  ]]; then echo 'down'
+    elif [[ $key = '[C'  ]]; then echo 'right'
+    elif [[ $key = '[D'  ]]; then echo 'left'
+    elif [[ $key = '[Z'  ]]; then echo 'shift-tab'
+    fi
+  else
+    # invalid input, exit without echo
+    return
+  fi
+}
+
+show_help() {
+  cat <<EOT
+  Commit type help:
+  feat - Adds or removes a new feature
+  fix - Fixes a bug
+  refactor - Rewrite/restructure code, however does not change any API behavior
+  perf - A code change that improves performance
+  test - Adding missing tests or correcting existing tests
+  docs - Documentation only changes
+  style - Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+  build - Changes that affect the build system or external dependencies
+  ops - Affect operational components like infrastructure, deployment, backup, recovery
+  revert - Reverts a previous commit
+  chore - Other changes that don't modify src or test files
+EOT
+exit 0
+}
+
+
+choose_commit_type() {
+
+  t_cursor_invisible
+
+  declare commit_types=(
+  "feat"
+  "fix"
+  "refactor"
+  "perf"
+  "test"
+  "docs"
+  "style"
+  "build"
+  "ops"
+  "revert"
+  "chore"
+  );
+
+
+  declare commit_descriptions=(
+  "Adds or removes a new feature"
+  "Fixes a bug"
+  "Rewrite/restructure code, however does not change any API behavior"
+  "A code change that improves performance"
+  "Adding missing tests or correcting existing tests"
+  "Documentation only changes"
+  "Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)"
+  "Changes that affect the build system or external dependencies"
+  "Affect operational components like infrastructure, deployment, backup, recovery"
+  "Reverts a previous commit"
+  "Other changes that don't modify src or test files"
+  );
+
+  t_cursor_invisible
+
+  t_goto $query_line 0
+  printf "%s" "${Cyan}Choose the commit type:${NC}"
+  (( query_line += 2 ))
+  t_goto $query_line 0
+  for opt in "${commit_types[@]}"; do printf "\n"; done
+  local firstrow=$query_line
+  local lastrow=$(t_cursor_row)
+  local selected=0
+  local show_desc=0
+  local commit_desc=''
+
+  while true; do
+    local indx=0
+    for option in "${commit_types[@]}"; do
+      t_goto $(( firstrow + indx)) 0
+      t_clear_to_eol
+      if [[ $show_desc -eq 1 ]]; then
+        commit_desc=" - ${commit_descriptions[$indx]}"
+      else
+        commit_desc=''
+      fi
+      if [[ $indx -eq $selected ]]; then
+        printf "%2d. %s%s" "${indx}" "${BLACK}${BGcyan}${option}${NC}" "$commit_desc"
+      else
+        printf "%2d. %s%s" "${indx}" "${option}" "$commit_desc"
+      fi
+      (( indx += 1 ))
+    done
+
+    local input=$(menu_input)
+    case $input in
+      enter|space) break
+        ;;
+      down|tab) (( selected += 1 ));
+        if [[ $selected -ge ${#commit_types[@]} ]]; then selected=0; fi
+        ;;
+      up|shift-tab)   (( selected -= 1 ));
+        if [[ $selected -le 0 ]]; then selected=$(( ${#commit_types[@]} - 1 )); fi
+        ;;
+      disp) show_desc=$(( 1 - show_desc ))
+        ;;
+      [0-9])
+        if [[ $input -le ${#commit_types[@]} ]]; then
+          selected=$input;
+          break
+        fi;
+        ;;
+    esac
+
+  done
+
+  t_goto $query_line 0
+  t_clear_to_end_of_screen
+  (( query_line -= 3 ))
+  t_cursor_visible
+
+  commit_type=${commit_types[$selected]}
+  return
+}
+
+
+ask_yn() {
+  # ask a y/n question
+  local default="$1"
+  local question="$2"
+  local key
+  local defs
+
+  if [[ $default =~ [yY] ]]; then
+    default=1
+    defs='[Y/n]'
+  else
+    default=0
+    defs='[y/N]'
+  fi
+
+  (( query_line += 1 ))
+
+  while true
+  do
+    t_goto $query_line 0
+    t_clear_to_eol
+    printf "%s %s? " "${Cyan}${question}${NC}" "$defs"
+    IFS=$'\037' read -rn1 key 2>/dev/null >&2
+    if [[ $key =~ [yY]   ]]; then return 1
+    elif [[ $key =~ [nN] ]]; then return 0
+    elif [[ $key = ''    ]]; then return "$default"
+    else
+      error_message "Yes or No response required."
+    fi
+  done
+}
+
+
+ask_question() {
+  # ask a question
+  local question="$1"
+  local mandatory="${2-1}"
+  (( query_line += 1 ))
+  while true
+  do
+    t_goto $query_line 0
+    t_clear_to_eol
+    printf "%s? " "${Cyan}${question}${NC}"
+    IFS=$'\037' read -r response 2>/dev/null >&2
+    if [[ $mandatory -eq 1 ]]; then
+      if [[ $response = '' ]]; then
+        error_message "Please respond to the question."
+      else
+        break
+      fi
+    else
+      break
+    fi
+  done
+}
+
+
+main() {
+  create_temp_file
+
+  # check if list of staged files to commit provided
+  if [ $# -eq 0 ]; then
+    printf "%s\n" "${Red}Please provide a list of staged files to commit.${NC}"
+    usage
+  fi
+
+  if [ $1 == '-h' ]; then
+    printf "%s\n" "${Red}Help for git cc:${NC}"
+    show_help
+  fi
+
+  # save screen
+  t_save_screen
+
+  local cols=$(get_cols)
+  local lines=$(get_term_lines)
+  local mid_line=$(( lines / 2 ))
+  local commit_line=$(( mid_line + 2 ))
+  local query_line=$(( mid_line + 4 ))
+
+  local commit_message=''
+  local commit_type=''
+  local commit_scope=''
+  local commit_desc=''
+  local commit_breaks=0
+  local breaking_desc=''
+
+  local response
+
+  print_banner
+
+  # menu of commit types
+  choose_commit_type
+  print_commit_message
+
+  # ask for optional scope (y/N)
+  ask_question "Scope:" 0
+  commit_scope=$response
+  print_commit_message
+
+  #ask for commit desc
+  ask_question "Commit Description:" 1
+  commit_desc=$response
+  print_commit_message
+
+  # ask for breaking change (y/N)
+  if  ask_yn 'n' 'Breaking change' ; then
+    commit_breaks=0
+  else
+    commit_breaks=1
+    print_commit_message
+    ask_question "Breaking Change Description:" 1
+    breaking_desc='BREAKING CHANGE: '
+    breaking_desc+="${response}"
+  fi
+  print_commit_message
+
+  # ask for edit (y/N)
+  if  ask_yn 'n' 'Edit Body of commit' ; then
+    edit_body=0
+  else
+    edit_body=1
+  fi
+
+  # store commit message in a temp file
+  printf "%s" "${commit_message}" > $tempfile
+  if [[ commit_breaks -eq 1 ]]; then
+    printf "\n\n%s" "${breaking_desc}" >> $tempfile
+  fi
+
+  t_restore_screen
+  echo
+  # perform commit
+  if [[ edit_body -eq 1 ]]; then
+    git commit --edit --file=${tempfile} "${*}"
+  else
+    git commit --file=${tempfile} "${*}"
+  fi
+
+  t_cursor_last
+  echo
+}
+
+main "$@"
+
+# vim:ft=bash
