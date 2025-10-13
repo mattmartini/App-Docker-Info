@@ -1,41 +1,80 @@
 package App::Docker::Info;
 
-use warnings;
+use 5.018;
 use strict;
+use warnings;
 use Carp;
+use lib 'lib';
 
 use version; our $VERSION = version->declare("v0.1.0");
 
-# Other recommended modules (uncomment to use):
-#  use IO::Prompt;
-#  use Perl6::Export;
-#  use Perl6::Slurp;
-#  use Perl6::Say;
+use Exporter   qw( );
+use List::Util qw( uniq );
 
-# Module implementation here
+our @EXPORT      = ();
+our @EXPORT_OK   = ();
+our %EXPORT_TAGS = ( all => \@EXPORT_OK );    # Optional.
 
-1;    # Magic true value required at end of module
-__END__
+sub import {
+    my $class = shift;
+    my (@packages) = @_;
+
+    my ( @pkgs, @rest );
+    for (@packages) {
+        if (/^::/) {
+            push @pkgs, __PACKAGE__ . $_;
+        }
+        else {
+            push @rest, $_;
+        }
+    }
+
+    for my $pkg (@pkgs) {
+        my $mod = ( $pkg =~ s{::}{/}gr ) . ".pm";
+        require $mod;
+
+        my $exports = do { no strict "refs"; \@{ $pkg . "::EXPORT_OK" } };
+        $pkg->import(@$exports);
+        @EXPORT    = uniq @EXPORT,    @$exports;
+        @EXPORT_OK = uniq @EXPORT_OK, @$exports;
+    }
+
+    @_ = ( $class, @rest );
+    goto &Exporter::import;
+}
+
+1;    # End of App::Docker::Info
+
+=pod
+
+=encoding utf-8
 
 =head1 NAME
 
-App::Docker::Info - [One line description of module's purpose here]
+App::Docker::Info - Base modules for Perl Development
 
 
 =head1 VERSION
 
-This document describes App::Docker::Info version v0.1.0
-
+Version v.1.0.11
 
 =head1 SYNOPSIS
 
-    use App::Docker::Info;
+App::Docker::Info provides a loader for sub-modules where a leading :: denotes a package to load.
 
-=for author to fill in:
-    Brief code example(s) here showing commonest usage(s).
-    This section will be as far as many users bother reading
-    so make it as educational and exeplary as possible.
+    use App::Docker::Info qw( ::OS ::Utils );
 
+This is equivalent to:
+
+    user App::Docker::Info::OS    qw(:all);
+    user App::Docker::Info::Utils qw(:all);
+
+
+
+=head1 SEE ALSO
+
+L<App::Docker::Info::Syntax>,
+L<App::Docker::Info::Utils>,
 
 =head1 DESCRIPTION
 
@@ -44,88 +83,31 @@ This document describes App::Docker::Info version v0.1.0
     Use subsections (=head2, =head3) as appropriate.
 
 
-=head1 INTERFACE
-
-=for author to fill in:
-    Write a separate section listing the public components of the modules
-    interface. These normally consist of either subroutines that may be
-    exported, or methods that may be called on objects belonging to the
-    classes provided by the module.
-
-
-=head1 DIAGNOSTICS
-
-=for author to fill in:
-    List every single error and warning message that the module can
-    generate (even the ones that will "never happen"), with a full
-    explanation of each problem, one or more likely causes, and any
-    suggested remedies.
-
-=over
-
-=item C<< Error message here, perhaps with %s placeholders >>
-
-[Description of error here]
-
-=item C<< Another error message here >>
-
-[Description of error here]
-
-[Et cetera, et cetera]
 
 =back
 
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
-=for author to fill in:
-    A full explanation of any configuration system(s) used by the
-    module, including the names and locations of any configuration
-    files, and the meaning of any environment variables or properties
-    that can be set. These descriptions must also include details of any
-    configuration language used.
-
 App::Docker::Info requires no configuration files or environment variables.
 
 
 =head1 DEPENDENCIES
-
-=for author to fill in:
-    A list of all the other modules that this module relies upon,
-    including any restrictions on versions, and an indication whether
-    the module is part of the standard Perl distribution, part of the
-    module's distribution, or must be installed separately. ]
 
 None.
 
 
 =head1 INCOMPATIBILITIES
 
-=for author to fill in:
-    A list of any modules that this module cannot be used in conjunction
-    with. This may be due to name conflicts in the interface, or
-    competition for system or program resources, or due to internal
-    limitations of Perl (for example, many modules that use source code
-    filters are mutually incompatible).
-
 None reported.
-
 
 =head1 BUGS AND LIMITATIONS
 
-=for author to fill in:
-    A list of known problems with the module, together with some
-    indication Whether they are likely to be fixed in an upcoming
-    release. Also a list of restrictions on the features the module
-    does provide: data types that cannot be handled, performance issues
-    and the circumstances in which they may arise, practical
-    limitations on the size of data sets, special cases that are not
-    (yet) handled, etc.
 
 No bugs have been reported.
 
 Please report any bugs or feature requests to
-C<bug-app-activeips@rt.cpan.org>, or through the web interface at
+C<bug-app-docker-info@rt.cpan.org>, or through the web interface at
 L<http://rt.cpan.org>.
 
 
@@ -136,11 +118,11 @@ Matt Martini  C<< <matt@imaginarywave.com> >>
 
 =head1 LICENCE AND COPYRIGHT
 
-Copyright (c) 2025, Matt Martini C<< <matt@imaginarywave.com> >>. All rights reserved.
+This software is Copyright © 2024 by Matt Martini.
 
-This module is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself. See L<perlartistic>.
+This is free software, licensed under:
 
+  The GNU General Public License, Version 3, June 2007
 
 =head1 DISCLAIMER OF WARRANTY
 
@@ -164,3 +146,7 @@ RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
 FAILURE OF THE SOFTWARE TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
 SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGES.
+
+=cut
+
+__END__
