@@ -5,7 +5,7 @@
 ##                                                                            ##
 ##  Author:    Matt Martini                                                   ##
 ##                                                                            ##
-##  Created:   2025-10-12   v.0.1.0                                           ##
+##  Created:   2025-10-12   v0.1.0                                            ##
 ##                                                                            ##
 ##  Copyright © 2025  Matt Martini <matt.martini@imaginarywave.com>           ##
 ##                                                                            ##
@@ -16,13 +16,14 @@
 ########################################
 
 use App::Docker::Info::Syntax;
+use App::Docker::Info qw(::Utils ::Image ::Container ::Volume ::System);
 
 use Getopt::Long;
 use Term::ANSIColor;
 
 use Data::Dumper;
 use Data::Printer class =>
-{ expand => 'all', show_methods => 'none', parents => 0 };
+    { expand => 'all', show_methods => 'none', parents => 0 };
 
 Readonly my $PROGRAM => 'dockerinfo';
 Readonly my $VERSION => version->declare("v0.2.0");
@@ -37,20 +38,20 @@ local $OUTPUT_AUTOFLUSH = 1;
 
 # Default config params
 my %config = (
-    bla   => '',    # Bla Bla Bla
-    ratio  => 0,     # Inode Ratio
-    debug  => 0,     # debugging
-    verbose   => 0,    # Verbose output
-    silent => 0      # do not print report on stdout
-    );
-
+               image     => 0,    # Image
+               container => 0,    # Container
+               volume    => 0,    # Volume
+               system    => 0,    # System
+               debug     => 0,    # debugging
+               verbose   => 0,    # Verbose output
+               silent    => 0     # do not print report on stdout
+             );
 
 ########################################
 #            Main Program              #
 ########################################
 
 process_args();
-
 
 exit(0);
 
@@ -59,40 +60,51 @@ exit(0);
 ########################################
 sub process_args {
 
-  GetOptions( \%config, "size=s", "name=s", "vg=s",
-      "debug", "verbose+", "silent", "help|?",
-      "version" => sub { say "version: $VERSION"; exit(0); }, );
+    GetOptions(
+                \%config,    "image",
+                "container", "volume",
+                "system",    "debug",
+                "verbose+",  "silent",
+                "help|?",    "version" => sub { say "version: $VERSION"; exit(0); },
+              );
 
-# Sanity checks
+    # Sanity checks
 
-  usage() if ( $Getopt::Long::error > 0 || $config{ help } );
+    usage() if ( $Getopt::Long::error > 0 || $config{ help } );
 
-  $config{ verbose }++ if ( $config{ debug } );
+    $config{ verbose }++ if ( $config{ debug } );
 
-  usage("You must specify a Bla.")
-    unless ( $config{ bla } );
+    usage("You must specify a type of Docker info to retreive.")
+        unless ( $config{ image } | $config{ container } | $config{ volume }
+                 | $config{ system } );
 
-  return;
+    return;
 
 }
 
-
 sub usage {
-  my $msg = shift || '';
-  print colored ( $msg, 'red' );
-  print <<"END_USAGE";
+    my $msg = shift || '';
+    print colored ( $msg, 'red' );
+    print <<"END_USAGE";
 
-Usage: $0 args
+Usage: $0 args <id>
          Arguments:
-         --bla        : bla bla bla
+         --image      : Image info
+         --container  : Container info
+         --volume     : Volume info
+         --system     : System info
          --debug      : Turn debugging on
          --verbose    : Generate debugging info on stderr
          --silent     : Do not print report on stdout
          --help       : This helpful information.
 
-END_USAGE
-         exit(1);
-}
+         id           : Specific Docker Object ID (optional)
 
+         dockerinfo will list all of the docker objects of the specified type,
+         or will display info on a specific object if an ID is given.
+
+END_USAGE
+    exit(1);
+}
 
 # vim: ft=perl
