@@ -4,11 +4,12 @@
 .martini-shibumi-yath-persist.json
 .martini-shibumi.home.arpa-yath-persist.json
 .martini-shibumi.local-yath-persist.json
+.prove
 Build
 Build.bat
 MANIFEST.bak
-MERM-Base-*
-MERM-Base-*.tar.gz
+App-Docker-Info-*
+App-Docker-Info-*.tar.gz
 META.*
 MYMETA.*
 Makefile
