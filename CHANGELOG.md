@@ -4,6 +4,30 @@ All notable changes to this project will be documented in this file.
 
 ## [unreleased]
 
+### 🚀 Features
+
+- Setup config, usage, and getopt
+
+### 🧪 Testing
+
+- *(boilerplate)* Update for README.md and CHANGELOG.md
+
+### 🚧 Build
+
+- *(manifest)* Skip unneeded files in manifest
+- *(gitignore)* Customize for this project
+- *(xt)* Modernize xt tests
+
+## [version/v0.2.0] - 2025-10-13
+
+### 🚀 Features
+
+- Setup structure for types of info (modules,tests)
+
+### ⚙️ Miscellaneous Tasks
+
+- Clean up module templates.
+
 ### 🚧 Build
 
 - App::Docker::Info initial commit

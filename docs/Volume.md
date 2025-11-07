@@ -1,0 +1,81 @@
+# NAME
+
+App::Docker::Info::Volume - \[One line description of module's purpose here\]
+
+# VERSION
+
+This document describes App::Docker::Info version v0.2.0
+
+# SYNOPSIS
+
+    use App::Docker::Info::Volume;
+
+# DESCRIPTION
+
+# INTERFACE
+
+# DIAGNOSTICS
+
+- `Error message here, perhaps with %s placeholders`
+
+    \[Description of error here\]
+
+- `Another error message here`
+
+    \[Description of error here\]
+
+    \[Et cetera, et cetera\]
+
+# CONFIGURATION AND ENVIRONMENT
+
+App::Docker::Info::Volume requires no configuration files or environment variables.
+
+# DEPENDENCIES
+
+None.
+
+# INCOMPATIBILITIES
+
+None reported.
+
+# BUGS AND LIMITATIONS
+
+No bugs have been reported.
+
+Please report any bugs or feature requests to
+`bug-app-docker-info@rt.cpan.org`, or through the web interface at
+[http://rt.cpan.org](http://rt.cpan.org).
+
+# AUTHOR
+
+Matt Martini  `<matt@imaginarywave.com>`
+
+# LICENCE AND COPYRIGHT
+
+Copyright (c) 2025, Matt Martini `<matt@imaginarywave.com>`. All rights reserved.
+
+This module is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself. See [perlartistic](https://metacpan.org/pod/perlartistic).
+
+# DISCLAIMER OF WARRANTY
+
+BECAUSE THIS SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
+FOR THE SOFTWARE, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN
+OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
+PROVIDE THE SOFTWARE "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
+EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE
+ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE SOFTWARE IS WITH
+YOU. SHOULD THE SOFTWARE PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL
+NECESSARY SERVICING, REPAIR, OR CORRECTION.
+
+IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
+WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
+REDISTRIBUTE THE SOFTWARE AS PERMITTED BY THE ABOVE LICENCE, BE
+LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL,
+OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE
+THE SOFTWARE (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING
+RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
+FAILURE OF THE SOFTWARE TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
+SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGES.
