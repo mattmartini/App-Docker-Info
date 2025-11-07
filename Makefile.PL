@@ -11,9 +11,12 @@ WriteMakefile(
     LICENSE            => 'gpl_3',
     MIN_PERL_VERSION   => '5.018',
     PL_FILES           => {},
+    BUILD_REQUIRES     => { 'ExtUtils::MakeMaker' => 0, },
     CONFIGURE_REQUIRES => { 'ExtUtils::MakeMaker' => 0, },
-    ## EXE_FILES          => [ "bin/dockerinfo", ],
-    PREREQ_PM => {     'Carp'            => 0,
+    EXE_FILES          => [ 'bin/docker-info', ],
+    PREREQ_PM          => {
+                       'Dev::Util'       => 2.16.0,
+                       'Carp'            => 0,
                        'English'         => 0,
                        'Exporter'        => 0,
                        'JSON'            => 0,
@@ -37,6 +40,7 @@ WriteMakefile(
                            'Test2::Tools::Ref'  => 0,
                            'Test::More'         => 0,
                      },
+    MAN1PODS   => { 'bin/docker-info' => 'blib/man1/docker-info.1' },
     META_MERGE => {
         'meta-spec' => { version => 2 },
         resources   => {  repository => {
@@ -48,4 +52,5 @@ WriteMakefile(
                   },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES    => 'App-Docker-Info-*' },
+    ## NOECHO => '', # make debug output if empty
 );
