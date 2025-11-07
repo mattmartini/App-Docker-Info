@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 ################################################################################
 ##                                                                            ##
-##  dockerinfo - Display information about current docker components          ##
+##  docker-info - Display information about current docker components         ##
 ##                                                                            ##
 ##  Author:    Matt Martini                                                   ##
 ##                                                                            ##
@@ -25,7 +25,7 @@ use Data::Dumper;
 use Data::Printer class =>
     { expand => 'all', show_methods => 'none', parents => 0 };
 
-Readonly my $PROGRAM => 'dockerinfo';
+Readonly my $PROGRAM => 'docker-info';
 Readonly my $VERSION => version->declare("v0.2.0");
 
 ########################################
@@ -100,11 +100,46 @@ Usage: $0 args <id>
 
          id           : Specific Docker Object ID (optional)
 
-         dockerinfo will list all of the docker objects of the specified type,
+         docker-info will list all of the docker objects of the specified type,
          or will display info on a specific object if an ID is given.
 
 END_USAGE
     exit(1);
 }
+
+__END__
+
+=pod
+
+=encoding utf-8
+
+=head1 NAME
+
+App::Docker::Info::Syntax - Provide consistent feature setup.
+
+=head1 VERSION
+
+Version v0.2.0
+
+=head1 SYNOPSIS
+
+Provide consistent feature setup.  Put all of the "use" setup cmds in one place.
+Then import them into other modules.
+
+=head1 AUTHOR
+
+Matt Martini, C<< <matt at imaginarywave.com> >>
+
+=head1 LICENSE AND COPYRIGHT
+
+This software is Copyright © 2025 by Matt Martini.
+
+This is free software, licensed under:
+
+  The GNU General Public License, Version 3, June 2007
+
+=cut
+
+
 
 # vim: ft=perl

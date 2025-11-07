@@ -51,12 +51,11 @@ sub import {
 
 =head1 NAME
 
-App::Docker::Info - Base modules for Perl Development
-
+App::Docker::Info - Gathers information about docker images, containers, volumes, and system. 
 
 =head1 VERSION
 
-Version v.1.0.11
+Version v0.2.0
 
 =head1 SYNOPSIS
 
