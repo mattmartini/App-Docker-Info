@@ -3,7 +3,7 @@
 use Test2::V0;
 use lib 'lib';
 
-use App::Docker::Info::Syntax;
+use Dev::Util::Syntax;
 use App::Docker::Info qw(::Utils ::Volume);
 
 # plan tests => 2;

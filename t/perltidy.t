@@ -6,7 +6,7 @@
 use Test2::V0;
 use lib 'lib';
 
-use App::Docker::Info::Syntax;
+use Dev::Util::Syntax;
 
 eval {
     require Test::PerlTidy;
