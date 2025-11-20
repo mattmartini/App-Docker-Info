@@ -1,8 +1,9 @@
 #!/usr/bin/env perl
 
-use 5.018;
 use Test2::V0;
 use Test2::Require::AuthorTesting;
+
+use Dev::Util::Syntax;
 
 plan tests => 7;
 
@@ -44,7 +45,8 @@ sub module_boilerplate_ok {
 
 todo 'Need to replace the boilerplate text' => sub {
 
-    not_in_file_ok(README => "The README is used..." => qr/The README is used/,
+    not_in_file_ok(
+                   'README.md' => "The README is used..." => qr/The README is used/,
                    "'version information here'" => qr/to provide version information/,
                   );
 
