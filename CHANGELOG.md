@@ -1,4 +1,4 @@
-# Changelog for App::Docker::Info
+# Changelog for Dev::Util
 
 All notable changes to this project will be documented in this file.
 
@@ -7,16 +7,39 @@ All notable changes to this project will be documented in this file.
 ### 🚀 Features
 
 - Setup config, usage, and getopt
+- *(dev-util)* Convert to Dev::Util for Syntax and Utils
+- *(docs)* Add script to make docs for modules
+- Customize for this module
+
+### ⚙️ Miscellaneous Tasks
+
+- *(manifest)* Add SIGNATURE and update MANIFEST
+
+### 🚜 Refactor
+
+- *(tests)* Utilize Test2::Require::Module to ensure test modules are available
+- *(test)* Remove the dependence on yath
+- *(yath)* Add option to not use concurrency (--single)
 
 ### 🧪 Testing
 
 - *(boilerplate)* Update for README.md and CHANGELOG.md
+- *(dev-util)* Convert to Dev::Util, update tests
+- *(dev-util)* Convert to Dev::Util, update tests
+
+### 📚 Documentation
+
+- *(markdown)* Create markdown docs for modules via make_docs.sh
 
 ### 🚧 Build
 
 - *(manifest)* Skip unneeded files in manifest
 - *(gitignore)* Customize for this project
 - *(xt)* Modernize xt tests
+- *(makefile)* Customize for this app. Add Dev::Util
+- *(cliff)* Fix error in default cliff.toml
+- *(cliff)* Fix error in default cliff.toml
+- *(support)* Create support dir for development tools
 
 ## [version/v0.2.0] - 2025-10-13
 

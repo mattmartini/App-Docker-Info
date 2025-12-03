@@ -22,8 +22,7 @@ use Getopt::Long;
 use Term::ANSIColor;
 
 use Data::Dumper;
-use Data::Printer class =>
-    { expand => 'all', show_methods => 'none', parents => 0 };
+use Data::Printer;
 
 Readonly my $PROGRAM => 'docker-info';
 Readonly my $VERSION => version->declare("v0.2.0");

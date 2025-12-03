@@ -1,7 +1,6 @@
 bin/docker-info
 CHANGELOG.md
 cliff.toml
-coverage_report.sh
 docs/Container.md
 docs/Image.md
 docs/Info.md
@@ -14,13 +13,16 @@ lib/App/Docker/Info/Image.pm
 lib/App/Docker/Info/System.pm
 lib/App/Docker/Info/Volume.pm
 LICENSE
-make_docs.sh
 Makefile.PL
 MANIFEST			This list of files
 README.md
 Roadmap.md
-run_yath.sh
 SIGNATURE
+support/coverage_report.sh
+support/create_security_policy.pl
+support/make_docs.sh
+support/perltidyrc
+support/run_yath.sh
 t/00-load.t
 t/01-image.t
 t/02-container.t
@@ -35,5 +37,8 @@ xt/00-report-prereqs.t
 xt/boilerplate.t
 xt/kwalitee.t
 xt/manifest_check.t
+xt/mojibake.t
 xt/pod-coverage.t
-xt/pod.t
+xt/pod-spell.t
+xt/pod-syntax.t
+xt/portability.t
