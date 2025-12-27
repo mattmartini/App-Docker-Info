@@ -31,6 +31,8 @@ Plans for the development of the App::Docker::Info
   - v1.7 - Inspect System
   
   - v1.8 - Output Options
+
+  - v1.9 - List volume files (docker-volume-files.sh)
   
 
 Prompt for info type if none given
