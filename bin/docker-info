@@ -15,8 +15,8 @@
 #      Requirements and Packages       #
 ########################################
 
-use App::Docker::Info::Syntax;
-use App::Docker::Info qw(::Utils ::Image ::Container ::Volume ::System);
+use Dev::Util::Syntax;
+use App::Docker::Info qw(::Image ::Container ::Volume ::System);
 
 use Getopt::Long;
 use Term::ANSIColor;
