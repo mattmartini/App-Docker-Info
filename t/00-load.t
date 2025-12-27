@@ -6,7 +6,7 @@ use warnings;
 use version;
 use Test::More;
 
-plan tests => 39;
+plan tests => 36;
 
 BEGIN {
     my @modules = qw(
@@ -33,7 +33,7 @@ BEGIN {
         File::Temp
         IO::Interactive
         Import::Into
-        JSON
+        JSON::MaybeXS
         Module::Runtime
         Term::ANSIColor
         Term::ReadKey
