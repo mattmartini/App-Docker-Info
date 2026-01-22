@@ -38,3 +38,5 @@ Plans for the development of the App::Docker::Info
 Prompt for info type if none given
 List all of type unless ID given
 
+Usage: docker-info [ --image | --container | --volume | --system ] [ --list ] [ id ]
+
