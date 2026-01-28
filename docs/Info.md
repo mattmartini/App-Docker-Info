@@ -1,6 +1,6 @@
 # NAME
 
-App::Docker::Info - Gathers information about docker images, containers, volumes, and system. 
+App::Docker::Info - Gathers information about docker images, containers, volumes, and system.
 
 # VERSION
 
@@ -19,70 +19,75 @@ This is equivalent to:
 
 # SEE ALSO
 
-[App::Docker::Info::Syntax](https://metacpan.org/pod/App%3A%3ADocker%3A%3AInfo%3A%3ASyntax),
-[App::Docker::Info::Utils](https://metacpan.org/pod/App%3A%3ADocker%3A%3AInfo%3A%3AUtils),
-
-# DESCRIPTION
-
-# CONFIGURATION AND ENVIRONMENT
-
-App::Docker::Info requires no configuration files or environment variables.
-
-# DEPENDENCIES
-
-None.
-
-# INCOMPATIBILITIES
-
-None reported.
-
-# BUGS AND LIMITATIONS
-
-No bugs have been reported.
-
-Please report any bugs or feature requests to
-`bug-app-docker-info@rt.cpan.org`, or through the web interface at
-[http://rt.cpan.org](http://rt.cpan.org).
+[App::Docker::Info::Image](https://metacpan.org/pod/App%3A%3ADocker%3A%3AInfo%3A%3AImage),
+[App::Docker::Info::Container](https://metacpan.org/pod/App%3A%3ADocker%3A%3AInfo%3A%3AContainer),
+[App::Docker::Info::Volume](https://metacpan.org/pod/App%3A%3ADocker%3A%3AInfo%3A%3AVolume),
+[App::Docker::Info::System](https://metacpan.org/pod/App%3A%3ADocker%3A%3AInfo%3A%3ASystem),
 
 # AUTHOR
 
-Matt Martini  `<matt@imaginarywave.com>`
+Matt Martini, `<matt.martini at imaginarywave.com>`
 
-# LICENCE AND COPYRIGHT
+# BUGS
 
-This software is Copyright © 2024 by Matt Martini.
+Please report any bugs or feature requests to `bug-dev-util at rt.cpan.org`, or through
+the web interface at [https://rt.cpan.org/NoAuth/ReportBug.html?Queue=Dev-Util](https://rt.cpan.org/NoAuth/ReportBug.html?Queue=Dev-Util).  I will be notified, and then you'll
+automatically be notified of progress on your bug as I make changes.
+
+# INSTALLATION
+
+To install this module, see `INSTALL.md`
+
+TLDR; run the following commands:
+
+    perl Makefile.PL
+    make
+    make test
+    make install
+
+# SUPPORT AND DOCUMENTATION
+
+You can find documentation for this module with the perldoc command.
+
+    perldoc Dev::Util
+
+You can also look for information at:
+
+- RT: CPAN's request tracker (report bugs here)
+
+    [https://rt.cpan.org/NoAuth/Bugs.html?Dist=Dev-Util](https://rt.cpan.org/NoAuth/Bugs.html?Dist=Dev-Util)
+
+- Search CPAN
+
+    [https://metacpan.org/release/Dev-Util](https://metacpan.org/release/Dev-Util)
+
+# HISTORY
+
+This module was originally developed under the name `MERM::Base`.
+
+# TEMPLATE
+
+    module-starter \
+        --module=App::Docker::Info \
+        --module=App::Docker::Info::Image \
+        --module=App::Docker::Info::Container \
+        --module=App::Docker::Info::Volume \
+        --module=App::Docker::Info::System \
+        --builder=ExtUtils::MakeMaker \
+        --author='Matt Martini' \
+        --email=matt@imaginarywave.com \
+        --ignore=git \
+        --license=gpl3 \
+        --genlicense \
+        --minperl=5.018 \
+        --verbose
+
+# ACKNOWLEDGMENTS
+
+# LICENSE AND COPYRIGHT
+
+This software is Copyright © 2024-2025 by Matt Martini.
 
 This is free software, licensed under:
 
     The GNU General Public License, Version 3, June 2007
-
-# DISCLAIMER OF WARRANTY
-
-BECAUSE THIS SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
-FOR THE SOFTWARE, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN
-OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
-PROVIDE THE SOFTWARE "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
-EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE
-ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE SOFTWARE IS WITH
-YOU. SHOULD THE SOFTWARE PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL
-NECESSARY SERVICING, REPAIR, OR CORRECTION.
-
-IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
-WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
-REDISTRIBUTE THE SOFTWARE AS PERMITTED BY THE ABOVE LICENCE, BE
-LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL,
-OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE
-THE SOFTWARE (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING
-RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
-FAILURE OF THE SOFTWARE TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
-SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
-SUCH DAMAGES.
-
-# POD ERRORS
-
-Hey! **The above document had some coding errors, which are explained below:**
-
-- Around line 86:
-
-    &#x3d;back without =over

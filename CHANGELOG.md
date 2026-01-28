@@ -20,16 +20,22 @@ All notable changes to this project will be documented in this file.
 - *(tests)* Utilize Test2::Require::Module to ensure test modules are available
 - *(test)* Remove the dependence on yath
 - *(yath)* Add option to not use concurrency (--single)
+- *(syntax)* Convert to Dev::Util
 
 ### 🧪 Testing
 
 - *(boilerplate)* Update for README.md and CHANGELOG.md
 - *(dev-util)* Convert to Dev::Util, update tests
 - *(dev-util)* Convert to Dev::Util, update tests
+- *(author)* Update author tests. Sync with Dev::Util
+- *(author)* Add AUTHOR_TESTING
 
 ### 📚 Documentation
 
 - *(markdown)* Create markdown docs for modules via make_docs.sh
+- *(pod)* Convert to modern pod template
+- *(roadmap)* Add List volume files task
+- *(roadmap)* Define usage
 
 ### 🚧 Build
 
@@ -40,6 +46,7 @@ All notable changes to this project will be documented in this file.
 - *(cliff)* Fix error in default cliff.toml
 - *(cliff)* Fix error in default cliff.toml
 - *(support)* Create support dir for development tools
+- *(bin)* Move Data::Printer configuration to ~/.dataprinter
 
 ## [version/v0.2.0] - 2025-10-13
 
