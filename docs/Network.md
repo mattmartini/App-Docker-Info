@@ -1,6 +1,6 @@
 # NAME
 
-App::Docker::Info::Container - Gather and Display info about Docker Containers
+App::Docker::Info::Network - Gather and Display info about Docker Networks
 
 # VERSION
 
@@ -8,7 +8,7 @@ Version v0.2.0
 
 # SYNOPSIS
 
-    use App::Docker::Info::Container;
+    use App::Docker::Info::Network;
 
 # EXPORT
 

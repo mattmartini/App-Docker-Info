@@ -1,10 +1,10 @@
 # NAME
 
-App::Docker::Info::Image - \[One line description of module's purpose here\]
+App::Docker::Info::Image - Gather and Display info about Docker Images
 
 # VERSION
 
-Version v2.19.29
+Version v0.2.0
 
 # SYNOPSIS
 
@@ -46,7 +46,7 @@ You can also look for information at:
 
 # LICENSE AND COPYRIGHT
 
-This software is Copyright © 2025 by Matt Martini.
+This software is Copyright © 2025-2026 by Matt Martini.
 
 This is free software, licensed under:
 
