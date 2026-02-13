@@ -26,7 +26,7 @@ This script was inspired by [docker-image-list.sh](https://github.com/rimelek/sc
 
 ## COPYRIGHT AND LICENSE
 
-Copyright (C) 2025, Matt Martini  
+Copyright (C) 2025-2026, Matt Martini  
 
 See _LICENSE_ file for Software License.
 

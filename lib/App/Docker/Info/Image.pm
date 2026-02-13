@@ -89,7 +89,7 @@ L<https://metacpan.org/release/App-Docker-Info>
 
 =head1 LICENSE AND COPYRIGHT
 
-This software is Copyright © 2025 by Matt Martini.
+This software is Copyright © 2025-2026 by Matt Martini.
 
 This is free software, licensed under:
 
