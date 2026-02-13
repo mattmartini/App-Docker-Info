@@ -13,16 +13,11 @@ our $VERSION = version->declare("v0.2.0");
 
 =head1 NAME
 
-App::Docker::Info::Volume - [One line description of module's purpose here]
-
-
-=head1 NAME
-
-App::Docker::Info::Volume - [One line description of module's purpose here]
+App::Docker::Info::Volume - Gather and Display info about Docker Volumes
 
 =head1 VERSION
 
-Version v2.19.29
+Version v0.2.0
 
 =head1 SYNOPSIS
 

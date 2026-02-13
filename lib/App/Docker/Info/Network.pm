@@ -13,16 +13,11 @@ our $VERSION = version->declare("v0.2.0");
 
 =head1 NAME
 
-App::Docker::Info::Network - [One line description of module's purpose here]
-
-
-=head1 NAME
-
-App::Docker::Info::Network - [One line description of module's purpose here]
+App::Docker::Info::Network - Gather and Display info about Docker Networks
 
 =head1 VERSION
 
-Version v2.19.29
+Version v0.2.0
 
 =head1 SYNOPSIS
 
