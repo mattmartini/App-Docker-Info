@@ -1,9 +1,24 @@
 package App::Docker::Info::Utils;
 
 use Dev::Util::Syntax;
+
 use Exporter qw(import);
+use IPC::Cmd qw(can_run run);
 
 our $VERSION = version->declare("v0.2.0");
+
+our @EXPORT_OK = qw(
+    get_docker_cmd
+);
+
+our %EXPORT_TAGS = ( all => \@EXPORT_OK );
+
+sub get_docker_cmd {
+    my $cmd_path = can_run('docker')
+        or croak "docker command not found.\n";
+
+    return $cmd_path;
+}
 
 1;    # Magic true value required at end of module
 
@@ -13,16 +28,11 @@ our $VERSION = version->declare("v0.2.0");
 
 =head1 NAME
 
-App::Docker::Info::Utils - [One line description of module's purpose here]
-
-
-=head1 NAME
-
-App::Docker::Info::Utils - [One line description of module's purpose here]
+App::Docker::Info::Utils - Utilities for gathering and displaying Docker info
 
 =head1 VERSION
 
-Version v2.19.29
+Version v0.2.0
 
 =head1 SYNOPSIS
 
