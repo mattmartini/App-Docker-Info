@@ -17,6 +17,7 @@ Plans for the development of the App::Docker::Info
     - container
     - volume
     - system
+    - network
   
   - v1.2 - Get list for each type of info
   
