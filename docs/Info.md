@@ -4,7 +4,7 @@ App::Docker::Info - Gathers information about docker images, containers, volumes
 
 # VERSION
 
-Version v0.2.0
+Version v0.13.0
 
 # SYNOPSIS
 

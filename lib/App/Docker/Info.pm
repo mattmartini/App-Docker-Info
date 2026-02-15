@@ -6,7 +6,7 @@ use warnings;
 use version;
 use Carp qw(carp);
 
-our $VERSION = version->declare("v0.2.0");
+our $VERSION = version->declare("v0.13.0");
 
 use Exporter   qw( );
 use List::Util qw( uniq );
@@ -55,7 +55,7 @@ App::Docker::Info - Gathers information about docker images, containers, volumes
 
 =head1 VERSION
 
-Version v0.2.0
+Version v0.13.0
 
 =head1 SYNOPSIS
 

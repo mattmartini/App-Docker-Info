@@ -25,7 +25,7 @@ use Data::Dumper::Simple;
 use Data::Printer;
 
 Readonly my $PROGRAM => 'docker-info';
-Readonly my $VERSION => version->declare("v0.2.0");
+Readonly my $VERSION => version->declare("v0.13.0");
 
 ########################################
 #      Define Global Variables         #
@@ -122,7 +122,7 @@ App::Docker::Info::Syntax - Provide consistent feature setup.
 
 =head1 VERSION
 
-Version v0.2.0
+Version v0.13.0
 
 =head1 SYNOPSIS
 

@@ -4,7 +4,7 @@ App::Docker::Info::System - Gather and Display info about the Docker System
 
 # VERSION
 
-Version v0.2.0
+Version v0.13.0
 
 # SYNOPSIS
 

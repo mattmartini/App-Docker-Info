@@ -10,6 +10,16 @@ All notable changes to this project will be documented in this file.
 - *(dev-util)* Convert to Dev::Util for Syntax and Utils
 - *(docs)* Add script to make docs for modules
 - Customize for this module
+- *(network)* Create module and tests for Network items
+- *(utils)* Create module and tests for utils
+- *(utils)* Add fn get_docker_cmd
+- *(utils)* Add fn pull_info, with tests
+- *(image)* Add fns for gathering image info
+
+### 🐛 Bug Fixes
+
+- *(copyright)* Update copyright years
+- *(update)* Add provisions for Network and Utils modules
 
 ### ⚙️ Miscellaneous Tasks
 
@@ -29,6 +39,7 @@ All notable changes to this project will be documented in this file.
 - *(dev-util)* Convert to Dev::Util, update tests
 - *(author)* Update author tests. Sync with Dev::Util
 - *(author)* Add AUTHOR_TESTING
+- *(cleanup)* Prep testing framework
 
 ### 📚 Documentation
 
@@ -36,6 +47,14 @@ All notable changes to this project will be documented in this file.
 - *(pod)* Convert to modern pod template
 - *(roadmap)* Add List volume files task
 - *(roadmap)* Define usage
+- *(markdown)* Update Docs
+- *(roadmap)* Update roadmap for network items
+- *(pod)* Update module descriptions and sync versions
+- *(markdown)* Update module documentation
+
+### 🎨 Styling
+
+- *(tidy)* Cleanup code
 
 ### 🚧 Build
 

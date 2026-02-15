@@ -9,7 +9,7 @@ use Exporter qw(import);
 use IPC::Cmd qw[can_run run];
 use Data::Printer;
 
-our $VERSION = version->declare("v0.2.0");
+our $VERSION = version->declare("v0.13.0");
 
 our @EXPORT_OK = qw(
     get_images
@@ -75,7 +75,7 @@ App::Docker::Info::Image - Gather and Display info about Docker Images
 
 =head1 VERSION
 
-Version v0.2.0
+Version v0.13.0
 
 =head1 SYNOPSIS
 

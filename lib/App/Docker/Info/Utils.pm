@@ -6,7 +6,7 @@ use Exporter  qw(import);
 use Dev::Util qw(::OS);
 use IPC::Cmd  qw(can_run run);
 
-our $VERSION = version->declare("v0.2.0");
+our $VERSION = version->declare("v0.13.0");
 
 our @EXPORT_OK = qw(
     get_docker_cmd
@@ -49,7 +49,7 @@ App::Docker::Info::Utils - Utilities for gathering and displaying Docker info
 
 =head1 VERSION
 
-Version v0.2.0
+Version v0.13.0
 
 =head1 SYNOPSIS
 

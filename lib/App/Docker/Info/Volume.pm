@@ -3,7 +3,7 @@ package App::Docker::Info::Volume;
 use Dev::Util::Syntax;
 use Exporter qw(import);
 
-our $VERSION = version->declare("v0.2.0");
+our $VERSION = version->declare("v0.13.0");
 
 1;    # Magic true value required at end of module
 
@@ -17,7 +17,7 @@ App::Docker::Info::Volume - Gather and Display info about Docker Volumes
 
 =head1 VERSION
 
-Version v0.2.0
+Version v0.13.0
 
 =head1 SYNOPSIS
 

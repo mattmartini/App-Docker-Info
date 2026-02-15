@@ -4,7 +4,7 @@ App::Docker::Info::Network - Gather and Display info about Docker Networks
 
 # VERSION
 
-Version v0.2.0
+Version v0.13.0
 
 # SYNOPSIS
 
