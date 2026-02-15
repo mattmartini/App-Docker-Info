@@ -4,7 +4,7 @@ use Test2::V0;
 use lib 'lib';
 
 use Dev::Util::Syntax;
-use Dev::Util       qw(::OS);
+use Dev::Util       qw(::Const ::OS);
 use Dev::Util::File qw(file_executable);
 
 use App::Docker::Info qw(::Utils);
@@ -26,19 +26,20 @@ ok( file_executable($docker_cmd),
 my $cmd = $docker_cmd;
 
 sub ipc_run {
-    my $args  = shift;
-    my @lines = ipc_run_c( { cmd => $cmd . $args, verbose => 0, timeout => 5 } );
+    my $args = shift;
+    my @lines = ipc_run_c(
+                       { cmd => $cmd . $SPACE . $args, verbose => 0, timeout => 5 } );
     return \@lines;
 }
 
-my $args = q{ image list -q};
+my $args = q{image list -q};
 
 my $expected_ids_ref = ipc_run($args);
 my $ids_ref          = pull_info($args);
 
 is( $ids_ref, $expected_ids_ref, "pull_info - get_image_ids" );
 
-$args = q{ image list --format='{{json .}}'};
+$args = q{image list --format='{{json .}}'};
 
 my $expected_image_list_ref = ipc_run($args);
 my $image_list_ref          = pull_info($args);

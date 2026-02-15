@@ -30,12 +30,12 @@ support/make_docs.sh
 support/perltidyrc
 support/run_yath.sh
 t/00-load.t
-t/01-image.t
-t/02-container.t
-t/03-volume.t
-t/04-system.t
+t/01-utils.t
+t/02-image.t
+t/03-container.t
+t/04-volume.t
 t/05-network.t
-t/06-utils.t
+t/06-system.t
 t/perlcritic.t
 t/perlcriticrc
 t/perltidy.t

@@ -8,11 +8,15 @@ Version v0.13.0
 
 # SYNOPSIS
 
-    use App::Docker::Info::Utils;
+    use App::Docker::Info::Utils qw(:all);
+
+    my $cmd = get_docker_cmd();
+    my @image_list = pull_info('image list -q');
 
 # EXPORT
 
-    get_os
+    get_docker_cmd
+    pull_info
 
 # SUBROUTINES
 

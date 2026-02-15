@@ -22,21 +22,21 @@ our @EXPORT_OK = qw(
 our %EXPORT_TAGS = ( all => \@EXPORT_OK );
 
 sub get_image_ids {
-    my $args = q{ image list -q};
+    my $args = q{image list -q};
 
     my $ids_ref = pull_info($args);
     return $ids_ref;
 }
 
 sub get_active_image_list {
-    my $args = q{ image list --format='{{json .}}'};
+    my $args = q{image list --format='{{json .}}'};
 
     my $images_ref = pull_info($args);
     return $images_ref;
 }
 
 sub get_all_image_list {
-    my $args = q{ image list -a --format='{{json .}}'};
+    my $args = q{image list -a --format='{{json .}}'};
 
     my $images_ref = pull_info($args);
     return $images_ref;
@@ -45,7 +45,7 @@ sub get_all_image_list {
 sub inspect_image {
     my $id = shift;
 
-    my $args = q{ image inspect --format='{{json .}}' };
+    my $args = q{image inspect --format='{{json .}}' };
     $args .= $id;
 
     my $images_ref = pull_info($args);

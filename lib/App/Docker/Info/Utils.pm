@@ -1,10 +1,10 @@
 package App::Docker::Info::Utils;
 
 use Dev::Util::Syntax;
+use Dev::Util qw(::Const ::OS);
 
-use Exporter  qw(import);
-use Dev::Util qw(::OS);
-use IPC::Cmd  qw(can_run run);
+use Exporter qw(import);
+use IPC::Cmd qw(can_run run);
 
 our $VERSION = version->declare("v0.13.0");
 
@@ -28,7 +28,7 @@ sub pull_info {
     my $cmd = get_docker_cmd();
 
     my @lines = ipc_run_c(
-                           { cmd     => $cmd . $args,
+                           { cmd     => $cmd . $SPACE . $args,
                              verbose => 0,
                              timeout => 5
                            }
@@ -53,11 +53,15 @@ Version v0.13.0
 
 =head1 SYNOPSIS
 
-    use App::Docker::Info::Utils;
+    use App::Docker::Info::Utils qw(:all);
+
+    my $cmd = get_docker_cmd();
+    my @image_list = pull_info('image list -q');
 
 =head1 EXPORT
 
-    get_os
+    get_docker_cmd
+    pull_info
 
 =head1 SUBROUTINES
 
