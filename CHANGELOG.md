@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [version/v0.13.0] - 2026-02-15
 
 ### 🚀 Features
 
@@ -24,6 +24,7 @@ All notable changes to this project will be documented in this file.
 ### ⚙️ Miscellaneous Tasks
 
 - *(manifest)* Add SIGNATURE and update MANIFEST
+- *(version)* Bump version patch level
 
 ### 🚜 Refactor
 
