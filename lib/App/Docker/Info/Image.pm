@@ -1,8 +1,10 @@
 package App::Docker::Info::Image;
 
 use Dev::Util::Syntax;
-use Dev::Util::File qw(read_list);
-use Exporter        qw(import);
+use Dev::Util::File   qw(read_list);
+use App::Docker::Info qw(::Utils);
+
+use Exporter qw(import);
 
 use IPC::Cmd qw[can_run run];
 use Data::Printer;
@@ -11,24 +13,55 @@ our $VERSION = version->declare("v0.2.0");
 
 our @EXPORT_OK = qw(
     get_images
-    get_image_list
+    get_image_ids
+    get_active_image_list
+    get_all_image_list
+    inspect_image
 );
 
 our %EXPORT_TAGS = ( all => \@EXPORT_OK );
 
-my $src_dir = '/Users/martini/Development/App-Docker-Info/scratch/';
+sub get_image_ids {
+    my $args = q{ image list -q};
 
-my $image_dir = $src_dir . 'image/';
-
-my $image_list_file = $image_dir . 'image.list.q.txt';
-
-sub get_image_list {
-    my $file = shift or die "A image json file is required \n";
-
-    my @lines = read_list($image_list_file);
-
-    return @lines;
+    my $ids_ref = pull_info($args);
+    return $ids_ref;
 }
+
+sub get_active_image_list {
+    my $args = q{ image list --format='{{json .}}'};
+
+    my $images_ref = pull_info($args);
+    return $images_ref;
+}
+
+sub get_all_image_list {
+    my $args = q{ image list -a --format='{{json .}}'};
+
+    my $images_ref = pull_info($args);
+    return $images_ref;
+}
+
+sub inspect_image {
+    my $id = shift;
+
+    my $args = q{ image inspect --format='{{json .}}' };
+    $args .= $id;
+
+    my $images_ref = pull_info($args);
+    return $images_ref;
+}
+
+# my $src_dir = '/Users/martini/Development/App-Docker-Info/scratch/';
+# my $image_dir = $src_dir . 'image/';
+# my $image_list_file = $image_dir . 'image.list.q.txt';
+# sub get_image_list {
+#     my $file = shift or die "A image json file is required \n";
+
+#     my @lines = read_list($image_list_file);
+
+#     return @lines;
+# }
 
 1;
 
