@@ -4,13 +4,17 @@ cliff.toml
 docs/Container.md
 docs/Image.md
 docs/Info.md
+docs/Network.md
 docs/System.md
+docs/Utils.md
 docs/Volume.md
 examples/git-cc
 lib/App/Docker/Info.pm
 lib/App/Docker/Info/Container.pm
 lib/App/Docker/Info/Image.pm
+lib/App/Docker/Info/Network.pm
 lib/App/Docker/Info/System.pm
+lib/App/Docker/Info/Utils.pm
 lib/App/Docker/Info/Volume.pm
 LICENSE
 Makefile.PL
@@ -28,6 +32,8 @@ t/01-image.t
 t/02-container.t
 t/03-volume.t
 t/04-system.t
+t/05-network.t
+t/06-utils.t
 t/perlcritic.t
 t/perlcriticrc
 t/perltidy.t
