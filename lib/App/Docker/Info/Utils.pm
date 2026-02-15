@@ -2,13 +2,15 @@ package App::Docker::Info::Utils;
 
 use Dev::Util::Syntax;
 
-use Exporter qw(import);
-use IPC::Cmd qw(can_run run);
+use Exporter  qw(import);
+use Dev::Util qw(::OS);
+use IPC::Cmd  qw(can_run run);
 
 our $VERSION = version->declare("v0.2.0");
 
 our @EXPORT_OK = qw(
     get_docker_cmd
+    pull_info
 );
 
 our %EXPORT_TAGS = ( all => \@EXPORT_OK );
@@ -18,6 +20,21 @@ sub get_docker_cmd {
         or croak "docker command not found.\n";
 
     return $cmd_path;
+}
+
+sub pull_info {
+    my $args = shift;
+
+    my $cmd = get_docker_cmd();
+
+    my @lines = ipc_run_c(
+                           { cmd     => $cmd . $args,
+                             verbose => 0,
+                             timeout => 5
+                           }
+                         );
+
+    return \@lines;
 }
 
 1;    # Magic true value required at end of module

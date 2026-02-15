@@ -4,24 +4,46 @@ use Test2::V0;
 use lib 'lib';
 
 use Dev::Util::Syntax;
+use Dev::Util       qw(::OS);
+use Dev::Util::File qw(file_executable);
+
 use App::Docker::Info qw(::Utils);
 
-# plan tests => 2;
+plan tests => 3;
 
 #======================================#
-#             docker utilss            #
+#            get_docker_cmd            #
 #======================================#
 
-my $utils          = 'frozz';
-my $expected_utils = 'frozz';
-
-is( $utils, $expected_utils, "utils is frozz." );
+my $docker_cmd = get_docker_cmd();
+ok( file_executable($docker_cmd),
+    "get_docker_cmd - docker cmd is executable." );
 
 #======================================#
-#            get_smart_cmd             #
+#              pull_info               #
 #======================================#
 
-# my $smart_cmd = get_smart_cmd();
-# ok( file_executable($smart_cmd), "get_smart_cmd - smart cmd is executable." );
+my $cmd = $docker_cmd;
+
+sub ipc_run {
+    my $args  = shift;
+    my @lines = ipc_run_c( { cmd => $cmd . $args, verbose => 0, timeout => 5 } );
+    return \@lines;
+}
+
+my $args = q{ image list -q};
+
+my $expected_ids_ref = ipc_run($args);
+my $ids_ref          = pull_info($args);
+
+is( $ids_ref, $expected_ids_ref, "pull_info - get_image_ids" );
+
+$args = q{ image list --format='{{json .}}'};
+
+my $expected_image_list_ref = ipc_run($args);
+my $image_list_ref          = pull_info($args);
+
+is( $image_list_ref, $expected_image_list_ref,
+    "pull_info - get_active_image_list" );
 
 done_testing;
