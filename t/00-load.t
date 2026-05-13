@@ -59,7 +59,7 @@ BEGIN {
         ExtUtils::Manifest
         File::Compare
         File::Path
-        FindBin
+        Path::Tiny
         Socket
         Test2
         Test2::Tools::Ref
