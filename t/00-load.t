@@ -6,7 +6,7 @@ use warnings;
 use version;
 use Test::More;
 
-plan tests => 40;
+plan tests => 39;
 
 BEGIN {
     my @modules = qw(
@@ -60,7 +60,6 @@ BEGIN {
         File::Compare
         File::Path
         Path::Tiny
-        Socket
         Test2
         Test2::Tools::Ref
         Test::More
