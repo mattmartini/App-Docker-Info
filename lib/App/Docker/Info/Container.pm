@@ -1,10 +1,68 @@
 package App::Docker::Info::Container;
 
 use Dev::Util::Syntax;
+use Dev::Util::File   qw(read_list);
+use App::Docker::Info qw(::Utils);
+
 use Exporter qw(import);
+
+use IPC::Cmd qw[can_run run];
+use Data::Printer;
 
 our $VERSION = version->declare("v0.13.0");
 
+our @EXPORT_OK = qw(
+    get_containers
+    get_container_ids
+    get_active_container_list
+    get_all_container_list
+    inspect_container
+);
+
+our %EXPORT_TAGS = ( all => \@EXPORT_OK );
+
+sub get_container_ids {
+    my $args = q{container list -q};
+
+    my $ids_ref = pull_info($args);
+    return $ids_ref;
+}
+
+sub get_active_container_list {
+    my $args = q{container list --format='{{json .}}'};
+
+    my $containers_ref = pull_info($args);
+    return $containers_ref;
+}
+
+sub get_all_container_list {
+    my $args = q{container list -a --format='{{json .}}'};
+
+    my $containers_ref = pull_info($args);
+    return $containers_ref;
+}
+
+sub inspect_container {
+    my $id = shift;
+
+    my $args = q{container inspect --format='{{json .}}' };
+    $args .= $id;
+
+    my $containers_ref = pull_info($args);
+    return $containers_ref;
+}
+
+sub read_container_ids {
+    my $file = shift;
+
+    unless ( $file =~ m{\.json$} ) {
+        carp "A json file must be provided.\n";
+        return;
+    }
+    return read_info($file);
+}
+
+# read each type of get, send thru filter to extract relevant data
 1;    # Magic true value required at end of module
 
 =pod

@@ -52,16 +52,17 @@ sub inspect_image {
     return $images_ref;
 }
 
-# my $src_dir = '/Users/martini/Development/App-Docker-Info/scratch/';
-# my $image_dir = $src_dir . 'image/';
-# my $image_list_file = $image_dir . 'image.list.q.txt';
-# sub get_image_list {
-#     my $file = shift or die "A image json file is required \n";
+sub read_image_ids {
+    my $file = shift;
 
-#     my @lines = read_list($image_list_file);
+    unless ( $file =~ m{\.json$} ) {
+        carp "A json file must be provided.\n";
+        return;
+    }
+    return read_info($file);
+}
 
-#     return @lines;
-# }
+# read each type of get, send thru filter to extract relevant data
 
 1;
 

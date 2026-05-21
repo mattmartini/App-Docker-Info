@@ -1,9 +1,36 @@
 package App::Docker::Info::System;
 
 use Dev::Util::Syntax;
+use Dev::Util::File   qw(read_list);
+use App::Docker::Info qw(::Utils);
+
 use Exporter qw(import);
 
+use IPC::Cmd qw[can_run run];
+use Data::Printer;
+
 our $VERSION = version->declare("v0.13.0");
+
+our @EXPORT_OK = qw(
+    get_system_df
+    get_system_info
+);
+
+our %EXPORT_TAGS = ( all => \@EXPORT_OK );
+
+sub get_system_df {
+    my $args = q{system df --format='{{json .}}'};
+
+    my $systems_ref = pull_info($args);
+    return $systems_ref;
+}
+
+sub get_system_info {
+    my $args = q{system info --format='{{json .}}'};
+
+    my $systems_ref = pull_info($args);
+    return $systems_ref;
+}
 
 1;    # Magic true value required at end of module
 

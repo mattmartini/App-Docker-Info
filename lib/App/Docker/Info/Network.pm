@@ -1,9 +1,60 @@
 package App::Docker::Info::Network;
 
 use Dev::Util::Syntax;
+use Dev::Util::File   qw(read_list);
+use App::Docker::Info qw(::Utils);
+
 use Exporter qw(import);
 
+use IPC::Cmd qw[can_run run];
+use Data::Printer;
+
 our $VERSION = version->declare("v0.13.0");
+
+our @EXPORT_OK = qw(
+    get_networks
+    get_network_ids
+    get_active_network_list
+    inspect_network
+);
+
+our %EXPORT_TAGS = ( all => \@EXPORT_OK );
+
+sub get_network_ids {
+    my $args = q{network list -q};
+
+    my $ids_ref = pull_info($args);
+    return $ids_ref;
+}
+
+sub get_active_network_list {
+    my $args = q{network list --format='{{json .}}'};
+
+    my $networks_ref = pull_info($args);
+    return $networks_ref;
+}
+
+sub inspect_network {
+    my $id = shift;
+
+    my $args = q{network inspect --format='{{json .}}' };
+    $args .= $id;
+
+    my $networks_ref = pull_info($args);
+    return $networks_ref;
+}
+
+sub read_network_ids {
+    my $file = shift;
+
+    unless ( $file =~ m{\.json$} ) {
+        carp "A json file must be provided.\n";
+        return;
+    }
+    return read_info($file);
+}
+
+# read each type of get, send thru filter to extract relevant data
 
 1;    # Magic true value required at end of module
 

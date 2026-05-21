@@ -1,7 +1,8 @@
 package App::Docker::Info::Utils;
 
 use Dev::Util::Syntax;
-use Dev::Util qw(::Const ::OS);
+use Dev::Util       qw(::Const ::OS);
+use Dev::Util::File qw(read_list);
 
 use Exporter qw(import);
 use IPC::Cmd qw(can_run run);
@@ -11,6 +12,7 @@ our $VERSION = version->declare("v0.13.0");
 our @EXPORT_OK = qw(
     get_docker_cmd
     pull_info
+    read_info
 );
 
 our %EXPORT_TAGS = ( all => \@EXPORT_OK );
@@ -33,6 +35,14 @@ sub pull_info {
                              timeout => 5
                            }
                          );
+
+    return \@lines;
+}
+
+sub read_info {
+    my $file = shift or die "A json file is required \n";
+
+    my @lines = read_list($file);
 
     return \@lines;
 }
