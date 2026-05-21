@@ -5,5 +5,9 @@
 --blib
 -PTest2::V0
 -PDev::Util::Syntax
+-PDev::Util::Const
+-PDev::Util::OS
+-PTest2::Require::AuthorTesting
+-PTest2::Require::Module
 --reload
 --job-count 8:2
