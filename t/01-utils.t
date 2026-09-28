@@ -8,8 +8,11 @@ use Dev::Util       qw(::Const ::OS);
 use Dev::Util::File qw(file_executable);
 
 use App::Docker::Info qw(::Utils);
+use JSON::MaybeXS;
 
-plan tests => 3;
+use Data::Printer;
+
+plan tests => 5;
 
 #======================================#
 #            get_docker_cmd            #
@@ -65,5 +68,23 @@ is(
     sort_array_ref($unsorted_array_ref),
     'sort_array_ref - sort reference to an array'
   );
+
+#======================================#
+#          json_to_hash_ref            #
+#======================================#
+my $expected_student_hash = { 'name'    => 'Foo Bar',
+                              'email'   => 'foo@bar.com',
+                              'gender'  => undef,
+                              'address' => { 'planet' => 'Earth',
+                                             'city'   => 'Fooville'
+                                           },
+                              'classes' => [ 'Chemistry', 'Math', 'Literature' ]
+                            };
+
+my $student_json
+    = '{"classes":["Chemistry","Math","Literature"],"gender":null,"name":"Foo Bar","email":"foo@bar.com","address":{"city":"Fooville","planet":"Earth"}}';
+my $student_hash = json_to_hash_ref($student_json);
+
+is( $expected_student_hash, $student_hash, 'json_to_hash_ref' );
 
 done_testing;

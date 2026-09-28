@@ -6,6 +6,7 @@ use Dev::Util::File qw(read_list);
 
 use Exporter qw(import);
 use IPC::Cmd qw(can_run run);
+use JSON::MaybeXS;
 
 our $VERSION = version->declare("v0.13.0");
 
@@ -14,6 +15,7 @@ our @EXPORT_OK = qw(
     pull_info
     read_info
     sort_array_ref
+    json_to_hash_ref
 );
 
 our %EXPORT_TAGS = ( all => \@EXPORT_OK );
@@ -55,6 +57,14 @@ sub sort_array_ref {
     @$sorted_array_ref = sort { $a cmp $b } @$array_ref;
     return $sorted_array_ref;
 }
+
+sub json_to_hash_ref {
+    my $json     = shift;
+    my $json_obj = JSON->new->utf8->allow_nonref;
+    my $hash_ref = $json_obj->decode($json);
+    return $hash_ref;
+}
+
 1;    # Magic true value required at end of module
 
 =pod
@@ -80,6 +90,8 @@ Version v0.13.0
 
     get_docker_cmd
     pull_info
+    sort_array_ref
+    json_to_hash_ref
 
 =head1 SUBROUTINES
 
