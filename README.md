@@ -2,7 +2,7 @@
 App::Docker::Info - Display information about current docker components
 
 # VERSION
-Version v0.13.0
+Version v0.21.0
 
 # SYNOPSIS
 

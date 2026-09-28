@@ -4,7 +4,7 @@ App::Docker::Info::Container - Gather and Display info about Docker Containers
 
 # VERSION
 
-Version v0.13.0
+Version v0.21.0
 
 # SYNOPSIS
 

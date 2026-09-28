@@ -2,6 +2,47 @@
 
 All notable changes to this project will be documented in this file.
 
+## [unreleased]
+
+### 🚀 Features
+
+- *(yath)* Set terminal color before running
+- *(docker)* Get information from docker in json format
+- *(utils)* Add fn sort_array_ref, use in tests
+- *(utils)* Add fn json_to_hash_ref
+
+### 🐛 Bug Fixes
+
+- *(modules)* Remove Socket
+
+### ⚙️ Miscellaneous Tasks
+
+- Convert to Path::Tiny from depreciated FindBin
+
+### 🚜 Refactor
+
+- *(args)* Use ::Const $SPACE to defensively make args
+
+### 🧪 Testing
+
+- *(order)* Re-order tests so utils come first
+- *(xt)* Insure Meta.yml meets specification
+- *(yath)* Add persistant modules
+- *(docker)* Test info gathered
+- *(prove)* Runner for prove testing
+- *(prove)* Add author tests
+
+### 📚 Documentation
+
+- *(changelog)* Update changelog
+- *(readme)* Update the readme template
+- *(todo)* Add notes
+
+### 🚧 Build
+
+- *(makefile)* Add File::JSON::Slurper
+- *(xt)* Add xt/cpan-meta.t
+
 ## [version/v0.13.0] - 2026-02-15
 
 ### 🚀 Features

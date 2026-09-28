@@ -4,7 +4,7 @@ App::Docker::Info::Utils - Utilities for gathering and displaying Docker info
 
 # VERSION
 
-Version v0.13.0
+Version v0.21.0
 
 # SYNOPSIS
 
@@ -17,6 +17,8 @@ Version v0.13.0
 
     get_docker_cmd
     pull_info
+    sort_array_ref
+    json_to_hash_ref
 
 # SUBROUTINES
 

@@ -8,7 +8,7 @@ use Exporter qw(import);
 use IPC::Cmd qw(can_run run);
 use JSON::MaybeXS;
 
-our $VERSION = version->declare("v0.13.0");
+our $VERSION = version->declare("v0.21.0");
 
 our @EXPORT_OK = qw(
     get_docker_cmd
@@ -77,7 +77,7 @@ App::Docker::Info::Utils - Utilities for gathering and displaying Docker info
 
 =head1 VERSION
 
-Version v0.13.0
+Version v0.21.0
 
 =head1 SYNOPSIS
 
