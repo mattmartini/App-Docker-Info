@@ -18,7 +18,8 @@ Plans for the development of the App::Docker::Info
     - volume
     - system
     - network
-  
+    - context
+
   - v1.2 - Get list for each type of info
   
   - v1.3 - Parse JSON
@@ -30,10 +31,14 @@ Plans for the development of the App::Docker::Info
   - v1.6 - Inspect Volume
   
   - v1.7 - Inspect System
-  
-  - v1.8 - Output Options
 
-  - v1.9 - List volume files (docker-volume-files.sh)
+  - v1.8 - Inspect Network
+
+  - v1.9 - Inspect Context
+  
+  - v1.10 - Output Options
+
+  - v1.11 - List volume files (docker-volume-files.sh)
   
 
 Prompt for info type if none given
