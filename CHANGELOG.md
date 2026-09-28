@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [version/v0.21.0] - 2026-09-28
 
 ### 🚀 Features
 
@@ -18,6 +18,7 @@ All notable changes to this project will be documented in this file.
 ### ⚙️ Miscellaneous Tasks
 
 - Convert to Path::Tiny from depreciated FindBin
+- *(version)* Bump version patch level
 
 ### 🚜 Refactor
 
