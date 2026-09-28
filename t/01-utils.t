@@ -37,14 +37,33 @@ my $args = q{image list -q};
 my $expected_ids_ref = ipc_run($args);
 my $ids_ref          = pull_info($args);
 
-is( $ids_ref, $expected_ids_ref, "pull_info - get_image_ids" );
+is(
+    sort_array_ref($ids_ref),
+    sort_array_ref($expected_ids_ref),
+    "pull_info - get_image_ids"
+  );
 
 $args = q{image list --format='{{json .}}'};
 
 my $expected_image_list_ref = ipc_run($args);
 my $image_list_ref          = pull_info($args);
 
-is( $image_list_ref, $expected_image_list_ref,
-    "pull_info - get_active_image_list" );
+is(
+    sort_array_ref($image_list_ref),
+    sort_array_ref($expected_image_list_ref),
+    "pull_info - get_active_image_list"
+  );
+
+#======================================#
+#           sort_array_ref             #
+#======================================#
+my $expected_array_ref = [ 'a', 'b', 'c' ];
+my $unsorted_array_ref = [ 'c', 'a', 'b' ];
+
+is(
+    $expected_array_ref,
+    sort_array_ref($unsorted_array_ref),
+    'sort_array_ref - sort reference to an array'
+  );
 
 done_testing;

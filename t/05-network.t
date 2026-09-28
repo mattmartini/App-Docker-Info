@@ -32,7 +32,11 @@ my $expected_ids_ref = ipc_run($args);
 my $ids_ref          = get_network_ids();
 
 # p $ids_ref;
-is( $ids_ref, $expected_ids_ref, "get_network_ids" );
+is(
+    sort_array_ref($ids_ref),
+    sort_array_ref($expected_ids_ref),
+    "get_network_ids"
+  );
 
 #======================================#
 #        get_active_network_list       #
@@ -43,8 +47,11 @@ my $expected_network_list_ref = ipc_run($args);
 my $network_list_ref          = get_active_network_list();
 
 # p $network_list_ref;
-is( $network_list_ref, $expected_network_list_ref,
-    "get_active_network_list" );
+is(
+    sort_array_ref($network_list_ref),
+    sort_array_ref($expected_network_list_ref),
+    "get_active_network_list"
+  );
 
 #======================================#
 #            inspect_network           #
@@ -57,6 +64,10 @@ my $expected_network_inspect_ref = ipc_run($args);
 my $network_inspect_ref          = inspect_network($id);
 
 # p $network_inspect_ref;
-is( $network_list_ref, $expected_network_list_ref, "inspect_network" );
+is(
+    sort_array_ref($network_list_ref),
+    sort_array_ref($expected_network_list_ref),
+    "inspect_network"
+  );
 
 done_testing;

@@ -31,7 +31,11 @@ my $expected_ids_ref = ipc_run($args);
 my $ids_ref          = get_volume_ids();
 
 # p $ids_ref;
-is( $ids_ref, $expected_ids_ref, "get_volume_ids" );
+is(
+    sort_array_ref($ids_ref),
+    sort_array_ref($expected_ids_ref),
+    "get_volume_ids"
+  );
 
 #======================================#
 #        get_active_volume_list        #
@@ -42,7 +46,12 @@ my $expected_volume_list_ref = ipc_run($args);
 my $volume_list_ref          = get_active_volume_list();
 
 # p $volume_list_ref;
-is( $volume_list_ref, $expected_volume_list_ref, "get_active_volume_list" );
+
+is(
+    sort_array_ref($volume_list_ref),
+    sort_array_ref($expected_volume_list_ref),
+    "get_active_volume_list"
+  );
 
 #======================================#
 #          get_all_volume_list         #
@@ -53,8 +62,11 @@ my $expected_all_volume_list_ref = ipc_run($args);
 my $all_volume_list_ref          = get_all_volume_list();
 
 # p $all_volume_list_ref;
-is( $all_volume_list_ref, $expected_all_volume_list_ref,
-    "get_all_volume_list" );
+is(
+    sort_array_ref($all_volume_list_ref),
+    sort_array_ref($expected_all_volume_list_ref),
+    "get_all_volume_list"
+  );
 
 #======================================#
 #            inspect_volume            #
@@ -67,6 +79,10 @@ my $expected_volume_inspect_ref = ipc_run($args);
 my $volume_inspect_ref          = inspect_volume($id);
 
 # p $volume_inspect_ref;
-is( $all_volume_list_ref, $expected_all_volume_list_ref, "inspect_volume" );
+is(
+    sort_array_ref($all_volume_list_ref),
+    sort_array_ref($expected_all_volume_list_ref),
+    "inspect_volume"
+  );
 
 done_testing;

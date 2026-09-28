@@ -13,6 +13,7 @@ our @EXPORT_OK = qw(
     get_docker_cmd
     pull_info
     read_info
+    sort_array_ref
 );
 
 our %EXPORT_TAGS = ( all => \@EXPORT_OK );
@@ -47,6 +48,13 @@ sub read_info {
     return \@lines;
 }
 
+sub sort_array_ref {
+    my $array_ref = shift;
+    return unless ( ref($array_ref) eq 'ARRAY' );
+    my $sorted_array_ref;
+    @$sorted_array_ref = sort { $a cmp $b } @$array_ref;
+    return $sorted_array_ref;
+}
 1;    # Magic true value required at end of module
 
 =pod

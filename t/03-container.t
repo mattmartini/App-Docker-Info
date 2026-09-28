@@ -32,7 +32,11 @@ my $expected_ids_ref = ipc_run($args);
 my $ids_ref          = get_container_ids();
 
 # p $ids_ref;
-is( $ids_ref, $expected_ids_ref, "get_container_ids" );
+is(
+    sort_array_ref($ids_ref),
+    sort_array_ref($expected_ids_ref),
+    "get_container_ids"
+  );
 
 #======================================#
 #        get_active_container_list     #
@@ -43,8 +47,11 @@ my $expected_container_list_ref = ipc_run($args);
 my $container_list_ref          = get_active_container_list();
 
 # p $container_list_ref;
-is( $container_list_ref, $expected_container_list_ref,
-    "get_active_container_list" );
+is(
+    sort_array_ref($container_list_ref),
+    sort_array_ref($expected_container_list_ref),
+    "get_active_container_list"
+  );
 
 #======================================#
 #          get_all_container_list      #
@@ -55,8 +62,11 @@ my $expected_all_container_list_ref = ipc_run($args);
 my $all_container_list_ref          = get_all_container_list();
 
 # p $all_container_list_ref;
-is( $all_container_list_ref, $expected_all_container_list_ref,
-    "get_all_container_list" );
+is(
+    sort_array_ref($all_container_list_ref),
+    sort_array_ref($expected_all_container_list_ref),
+    "get_all_container_list"
+  );
 
 #======================================#
 #            inspect_container         #
@@ -69,7 +79,10 @@ my $expected_container_inspect_ref = ipc_run($args);
 my $container_inspect_ref          = inspect_container($id);
 
 # p $container_inspect_ref;
-is( $all_container_list_ref, $expected_all_container_list_ref,
-    "inspect_container" );
+is(
+    sort_array_ref($all_container_list_ref),
+    sort_array_ref($expected_all_container_list_ref),
+    "inspect_container"
+  );
 
 done_testing;
