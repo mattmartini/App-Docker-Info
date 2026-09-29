@@ -8,19 +8,57 @@ Version v0.21.0
 
 # SYNOPSIS
 
+App::Docker::Info::Utils - Support utilities for getting docker info, converting, and sorting it.
+
     use App::Docker::Info::Utils qw(:all);
 
     my $cmd = get_docker_cmd();
     my @image_list = pull_info('image list -q');
 
+    my $sorted_ref = sort_array_ref($array_ref);
+    my $hash_ref = json_to_hash_ref($json);
+
 # EXPORT
 
     get_docker_cmd
     pull_info
+    read_info
     sort_array_ref
     json_to_hash_ref
 
 # SUBROUTINES
+
+## **get\_docker\_cmd**
+
+Returns the command path to the `docker` executable.  If the `docker` command is not found
+this module and App can not be used, so it croaks.
+
+    my $cmd = get_docker_cmd();
+
+## **pull\_info**
+
+Runs the docker command via `IPC_run_c` and returns the result.
+
+    my @image_list = pull_info('image list -q');
+
+## **read\_info**
+
+Read a JSON file and return a reference to an array of its lines.
+
+    my $array_ref = read_info('data.json');
+
+## **sort\_array\_ref**
+
+Testing helper. Alphabetical sort of an array ref. Docker returns json lists in 
+indeterminate order, this functions normalizes the order so tests can pass
+
+    my $sorted_ref = sort_array_ref($array_ref);
+
+## **json\_to\_hash\_ref**
+
+Takes a JSON string and returns a hash ref of it. 
+
+    my $hash_ref = json_to_hash_ref($json);
 
 # AUTHOR
 
@@ -28,7 +66,7 @@ Matt Martini, `<matt at imaginarywave.com>`
 
 # BUGS
 
-Please report any bugs or feature requests to `bug-dev-util at rt.cpan.org`, or through
+Please report any bugs or feature requests to `bug-app-docker-info at rt.cpan.org`, or through
 the web interface at [https://rt.cpan.org/NoAuth/ReportBug.html?Queue=App-Docker-Info](https://rt.cpan.org/NoAuth/ReportBug.html?Queue=App-Docker-Info).  I will
 be notified, and then you'll automatically be notified of progress on your bug as I make changes.
 

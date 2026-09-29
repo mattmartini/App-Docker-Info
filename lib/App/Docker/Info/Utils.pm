@@ -43,7 +43,7 @@ sub pull_info {
 }
 
 sub read_info {
-    my $file = shift or die "A json file is required \n";
+    my $file = shift or croak "A json file is required \n";
 
     my @lines = read_list($file);
 
@@ -81,20 +81,57 @@ Version v0.21.0
 
 =head1 SYNOPSIS
 
+App::Docker::Info::Utils - Support utilities for getting docker info, converting, and sorting it.
+
     use App::Docker::Info::Utils qw(:all);
 
     my $cmd = get_docker_cmd();
     my @image_list = pull_info('image list -q');
 
+    my $sorted_ref = sort_array_ref($array_ref);
+    my $hash_ref = json_to_hash_ref($json);
+
 =head1 EXPORT
 
     get_docker_cmd
     pull_info
+    read_info
     sort_array_ref
     json_to_hash_ref
 
 =head1 SUBROUTINES
 
+=head2 B<get_docker_cmd>
+
+Returns the command path to the C<docker> executable.  If the C<docker> command is not found
+this module and App can not be used, so it croaks.
+
+    my $cmd = get_docker_cmd();
+
+=head2 B<pull_info>
+
+Runs the docker command via C<IPC_run_c> and returns the result.
+
+    my @image_list = pull_info('image list -q');
+
+=head2 B<read_info>
+
+Read a JSON file and return a reference to an array of its lines.
+
+    my $array_ref = read_info('data.json');
+
+=head2 B<sort_array_ref>
+
+Testing helper. Alphabetical sort of an array ref. Docker returns json lists in 
+indeterminate order, this functions normalizes the order so tests can pass
+
+    my $sorted_ref = sort_array_ref($array_ref);
+
+=head2 B<json_to_hash_ref>
+
+Takes a JSON string and returns a hash ref of it. 
+
+    my $hash_ref = json_to_hash_ref($json);
 
 =head1 AUTHOR
 
@@ -102,7 +139,7 @@ Matt Martini, C<< <matt at imaginarywave.com> >>
 
 =head1 BUGS
 
-Please report any bugs or feature requests to C<bug-dev-util at rt.cpan.org>, or through
+Please report any bugs or feature requests to C<bug-app-docker-info at rt.cpan.org>, or through
 the web interface at L<https://rt.cpan.org/NoAuth/ReportBug.html?Queue=App-Docker-Info>.  I will
 be notified, and then you'll automatically be notified of progress on your bug as I make changes.
 
