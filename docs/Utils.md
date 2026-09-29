@@ -43,20 +43,20 @@ Runs the docker command via `IPC_run_c` and returns the result.
 
 ## **read\_info**
 
-Read a JSON file and return a reference to an array of its lines.
+Read a `JSON` file and return a reference to an array of its lines.
 
     my $array_ref = read_info('data.json');
 
 ## **sort\_array\_ref**
 
-Testing helper. Alphabetical sort of an array ref. Docker returns json lists in 
+Testing helper. Alphabetical sort of an array ref. Docker returns `json` lists in 
 indeterminate order, this functions normalizes the order so tests can pass
 
     my $sorted_ref = sort_array_ref($array_ref);
 
 ## **json\_to\_hash\_ref**
 
-Takes a JSON string and returns a hash ref of it. 
+Takes a `JSON` string and returns a hash ref of it. 
 
     my $hash_ref = json_to_hash_ref($json);
 

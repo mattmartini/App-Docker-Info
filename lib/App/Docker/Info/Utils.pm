@@ -116,20 +116,20 @@ Runs the docker command via C<IPC_run_c> and returns the result.
 
 =head2 B<read_info>
 
-Read a JSON file and return a reference to an array of its lines.
+Read a C<JSON> file and return a reference to an array of its lines.
 
     my $array_ref = read_info('data.json');
 
 =head2 B<sort_array_ref>
 
-Testing helper. Alphabetical sort of an array ref. Docker returns json lists in 
+Testing helper. Alphabetical sort of an array ref. Docker returns C<json> lists in 
 indeterminate order, this functions normalizes the order so tests can pass
 
     my $sorted_ref = sort_array_ref($array_ref);
 
 =head2 B<json_to_hash_ref>
 
-Takes a JSON string and returns a hash ref of it. 
+Takes a C<JSON> string and returns a hash ref of it. 
 
     my $hash_ref = json_to_hash_ref($json);
 
