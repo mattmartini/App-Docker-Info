@@ -63,6 +63,8 @@ This is equivalent to:
 
 ## App::Docker::Info::System
 
+## App::Docker::Info::Context
+
 # INSTALLATION
 
 To install this module, run the following commands:
