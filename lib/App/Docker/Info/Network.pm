@@ -14,7 +14,7 @@ our $VERSION = version->declare("v0.21.0");
 our @EXPORT_OK = qw(
     get_networks
     get_network_ids
-    get_active_network_list
+    get_network_list
     inspect_network
 );
 
@@ -27,7 +27,7 @@ sub get_network_ids {
     return $ids_ref;
 }
 
-sub get_active_network_list {
+sub get_network_list {
     my $args = q{network list --format='{{json .}}'};
 
     my $networks_ref = pull_info($args);

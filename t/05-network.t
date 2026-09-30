@@ -39,18 +39,18 @@ is(
   );
 
 #======================================#
-#        get_active_network_list       #
+#        get_network_list              #
 #======================================#
 $args = q{network list --format='{{json .}}'};
 
 my $expected_network_list_ref = ipc_run($args);
-my $network_list_ref          = get_active_network_list();
+my $network_list_ref          = get_network_list();
 
 # p $network_list_ref;
 is(
     sort_array_ref($network_list_ref),
     sort_array_ref($expected_network_list_ref),
-    "get_active_network_list"
+    "get_network_list"
   );
 
 #======================================#
