@@ -14,8 +14,7 @@ our $VERSION = version->declare("v0.21.0");
 our @EXPORT_OK = qw(
     get_volumes
     get_volume_ids
-    get_active_volume_list
-    get_all_volume_list
+    get_volume_list
     inspect_volume
 );
 
@@ -28,15 +27,16 @@ sub get_volume_ids {
     return $ids_ref;
 }
 
-sub get_active_volume_list {
-    my $args = q{volume list --format='{{json .}}'};
+sub get_volume_list {
+    my $all = shift || 0;
+    my $args;
 
-    my $volumes_ref = pull_info($args);
-    return $volumes_ref;
-}
-
-sub get_all_volume_list {
-    my $args = q{volume list -a --format='{{json .}}'};
+    if ( $all == 1 ) {
+        $args = q{volume list -a --format='{{json .}}'};
+    }
+    else {
+        $args = q{volume list --format='{{json .}}'};
+    }
 
     my $volumes_ref = pull_info($args);
     return $volumes_ref;
@@ -84,7 +84,10 @@ Version v0.21.0
 
 =head1 EXPORT
 
-    get_os
+    get_volumes
+    get_volume_ids
+    get_volume_list
+    inspect_volume
 
 =head1 SUBROUTINES
 
@@ -95,7 +98,7 @@ Matt Martini, C<< <matt at imaginarywave.com> >>
 
 =head1 BUGS
 
-Please report any bugs or feature requests to C<bug-dev-util at rt.cpan.org>, or through
+Please report any bugs or feature requests to C<bug-app-docker-info at rt.cpan.org>, or through
 the web interface at L<https://rt.cpan.org/NoAuth/ReportBug.html?Queue=App-Docker-Info>.  I will
 be notified, and then you'll automatically be notified of progress on your bug as I make changes.
 

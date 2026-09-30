@@ -38,34 +38,31 @@ is(
   );
 
 #======================================#
-#        get_active_volume_list        #
+#          get_volume_list             #
 #======================================#
 $args = q{volume list --format='{{json .}}'};
 
 my $expected_volume_list_ref = ipc_run($args);
-my $volume_list_ref          = get_active_volume_list();
+my $volume_list_ref          = get_volume_list(0);
 
 # p $volume_list_ref;
 
 is(
     sort_array_ref($volume_list_ref),
     sort_array_ref($expected_volume_list_ref),
-    "get_active_volume_list"
+    "get_volume_list - active only"
   );
 
-#======================================#
-#          get_all_volume_list         #
-#======================================#
 $args = q{volume list -a --format='{{json .}}'};
 
 my $expected_all_volume_list_ref = ipc_run($args);
-my $all_volume_list_ref          = get_all_volume_list();
+my $all_volume_list_ref          = get_volume_list(1);
 
 # p $all_volume_list_ref;
 is(
     sort_array_ref($all_volume_list_ref),
     sort_array_ref($expected_all_volume_list_ref),
-    "get_all_volume_list"
+    "get_volume_list - all"
   );
 
 #======================================#
