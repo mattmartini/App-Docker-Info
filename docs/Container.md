@@ -12,7 +12,10 @@ Version v0.21.0
 
 # EXPORT
 
-    get_os
+    get_containers
+    get_container_ids
+    get_container_list
+    inspect_container
 
 # SUBROUTINES
 
@@ -22,7 +25,7 @@ Matt Martini, `<matt at imaginarywave.com>`
 
 # BUGS
 
-Please report any bugs or feature requests to `bug-dev-util at rt.cpan.org`, or through
+Please report any bugs or feature requests to `bug-app-docker-info at rt.cpan.org`, or through
 the web interface at [https://rt.cpan.org/NoAuth/ReportBug.html?Queue=App-Docker-Info](https://rt.cpan.org/NoAuth/ReportBug.html?Queue=App-Docker-Info).  I will
 be notified, and then you'll automatically be notified of progress on your bug as I make changes.
 

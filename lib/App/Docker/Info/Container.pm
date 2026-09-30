@@ -14,8 +14,7 @@ our $VERSION = version->declare("v0.21.0");
 our @EXPORT_OK = qw(
     get_containers
     get_container_ids
-    get_active_container_list
-    get_all_container_list
+    get_container_list
     inspect_container
 );
 
@@ -28,19 +27,21 @@ sub get_container_ids {
     return $ids_ref;
 }
 
-sub get_active_container_list {
-    my $args = q{container list --format='{{json .}}'};
+sub get_container_list {
+    my $all = shift || 0;
+    my $args;
+
+    if ( $all == 1 ) {
+        $args = q{container list -a --format='{{json .}}'};
+    }
+    else {
+        $args = q{container list --format='{{json .}}'};
+    }
 
     my $containers_ref = pull_info($args);
     return $containers_ref;
 }
 
-sub get_all_container_list {
-    my $args = q{container list -a --format='{{json .}}'};
-
-    my $containers_ref = pull_info($args);
-    return $containers_ref;
-}
 
 sub inspect_container {
     my $id = shift;
@@ -83,7 +84,10 @@ Version v0.21.0
 
 =head1 EXPORT
 
-    get_os
+    get_containers
+    get_container_ids
+    get_container_list
+    inspect_container
 
 =head1 SUBROUTINES
 
@@ -94,7 +98,7 @@ Matt Martini, C<< <matt at imaginarywave.com> >>
 
 =head1 BUGS
 
-Please report any bugs or feature requests to C<bug-dev-util at rt.cpan.org>, or through
+Please report any bugs or feature requests to C<bug-app-docker-info at rt.cpan.org>, or through
 the web interface at L<https://rt.cpan.org/NoAuth/ReportBug.html?Queue=App-Docker-Info>.  I will
 be notified, and then you'll automatically be notified of progress on your bug as I make changes.
 

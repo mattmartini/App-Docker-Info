@@ -39,33 +39,30 @@ is(
   );
 
 #======================================#
-#        get_active_container_list     #
+#        get_container_list            #
 #======================================#
 $args = q{container list --format='{{json .}}'};
 
 my $expected_container_list_ref = ipc_run($args);
-my $container_list_ref          = get_active_container_list();
+my $container_list_ref          = get_container_list(0);
 
 # p $container_list_ref;
 is(
     sort_array_ref($container_list_ref),
     sort_array_ref($expected_container_list_ref),
-    "get_active_container_list"
+    "get_container_list - active only"
   );
 
-#======================================#
-#          get_all_container_list      #
-#======================================#
 $args = q{container list -a --format='{{json .}}'};
 
 my $expected_all_container_list_ref = ipc_run($args);
-my $all_container_list_ref          = get_all_container_list();
+my $all_container_list_ref          = get_container_list(1);
 
 # p $all_container_list_ref;
 is(
     sort_array_ref($all_container_list_ref),
     sort_array_ref($expected_all_container_list_ref),
-    "get_all_container_list"
+    "get_container_list - all"
   );
 
 #======================================#
