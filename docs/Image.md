@@ -14,15 +14,13 @@ all images, and inspect an image.
     use App::Docker::Info::Image qw(:all);
 
     my $ids_ref             = get_image_ids();
-    my $image_list_ref      = get_active_image_list();
-    my $all_image_list_ref  = get_all_image_list();
+    my $image_list_ref      = get_image_list($all);
     my $image_inspect_ref   = inspect_image($id);
 
 # EXPORT
 
     get_image_ids
-    get_active_image_list
-    get_all_image_list
+    get_image_list
     inspect_image
     read_image_ids
 
@@ -34,17 +32,13 @@ Return a list of the docker image ids
 
     my $ids_ref = get_image_ids();
 
-## **get\_active\_image\_list**
+## **get\_image\_list(ALL)**
 
 Return a list of json data for each active docker image
 
-    my $image_list_ref = get_active_image_list();
+`ALL` get all images (1) or active only images (0, default)
 
-## **get\_all\_image\_list**
-
-Return a list of json data for each docker image
-
-    my $all_image_list_ref = get_all_image_list();
+    my $image_list_ref = get_image_list($all);
 
 ## **inspect\_image(ID)**
 

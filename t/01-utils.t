@@ -54,7 +54,7 @@ my $image_list_ref          = pull_info($args);
 is(
     sort_array_ref($image_list_ref),
     sort_array_ref($expected_image_list_ref),
-    "pull_info - get_active_image_list"
+    "pull_info - get_image_list"
   );
 
 #======================================#

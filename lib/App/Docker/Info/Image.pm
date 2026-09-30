@@ -14,8 +14,7 @@ our $VERSION = version->declare("v0.21.0");
 our @EXPORT_OK = qw(
     get_images
     get_image_ids
-    get_active_image_list
-    get_all_image_list
+    get_image_list
     inspect_image
 );
 
@@ -28,15 +27,16 @@ sub get_image_ids {
     return $ids_ref;
 }
 
-sub get_active_image_list {
-    my $args = q{image list --format='{{json .}}'};
+sub get_image_list {
+    my $all = shift || 0;
+    my $args;
 
-    my $images_ref = pull_info($args);
-    return $images_ref;
-}
-
-sub get_all_image_list {
-    my $args = q{image list -a --format='{{json .}}'};
+    if ( $all == 1 ) {
+        $args = q{image list -a --format='{{json .}}'};
+    }
+    else {
+        $args = q{image list --format='{{json .}}'};
+    }
 
     my $images_ref = pull_info($args);
     return $images_ref;
@@ -86,15 +86,13 @@ all images, and inspect an image.
     use App::Docker::Info::Image qw(:all);
 
     my $ids_ref             = get_image_ids();
-    my $image_list_ref      = get_active_image_list();
-    my $all_image_list_ref  = get_all_image_list();
+    my $image_list_ref      = get_image_list($all);
     my $image_inspect_ref   = inspect_image($id);
 
 =head1 EXPORT
 
     get_image_ids
-    get_active_image_list
-    get_all_image_list
+    get_image_list
     inspect_image
     read_image_ids
 
@@ -106,17 +104,13 @@ Return a list of the docker image ids
 
     my $ids_ref = get_image_ids();
 
-=head2 B<get_active_image_list>
+=head2 B<get_image_list(ALL)>
 
 Return a list of json data for each active docker image
 
-    my $image_list_ref = get_active_image_list();
+C<ALL> get all images (1) or active only images (0, default)
 
-=head2 B<get_all_image_list>
-
-Return a list of json data for each docker image
-
-    my $all_image_list_ref = get_all_image_list();
+    my $image_list_ref = get_image_list($all);
 
 =head2 B<inspect_image(ID)>
 

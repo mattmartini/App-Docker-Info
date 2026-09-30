@@ -39,32 +39,29 @@ is(
   );
 
 #======================================#
-#        get_active_image_list         #
+#        get_image_list                #
 #======================================#
 $args = q{image list --format='{{json .}}'};
 
 my $expected_image_list_ref = ipc_run($args);
-my $image_list_ref          = get_active_image_list();
+my $image_list_ref          = get_image_list(0);
 
 # p $image_list_ref;
 is(
     sort_array_ref($image_list_ref),
     sort_array_ref($expected_image_list_ref),
-    "get_active_image_list"
+    "get_image_list - active only"
   );
 
-#======================================#
-#          get_all_image_list          #
-#======================================#
 $args = q{image list -a --format='{{json .}}'};
 
 my $expected_all_image_list_ref = ipc_run($args);
-my $all_image_list_ref          = get_all_image_list();
+my $all_image_list_ref          = get_image_list(1);
 
 is(
     sort_array_ref($all_image_list_ref),
     sort_array_ref($expected_all_image_list_ref),
-    "get_all_image_list"
+    "get_image_list - all"
   );
 
 #======================================#
