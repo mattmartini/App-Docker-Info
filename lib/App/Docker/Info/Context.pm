@@ -1,4 +1,4 @@
-package App::Docker::Info::Volume;
+package App::Docker::Info::Context;
 
 use Dev::Util::Syntax;
 use Dev::Util::File   qw(read_list);
@@ -12,46 +12,46 @@ use Data::Printer;
 our $VERSION = version->declare("v0.21.0");
 
 our @EXPORT_OK = qw(
-    get_volume_ids
-    get_volume_list
-    inspect_volume
+    get_context_ids
+    get_current_context
+    get_context_list
+    inspect_context
 );
 
 our %EXPORT_TAGS = ( all => \@EXPORT_OK );
 
-sub get_volume_ids {
-    my $args = q{volume list -q};
+sub get_context_ids {
+    my $args = q{context list -q};
 
     my $ids_ref = pull_info($args);
     return $ids_ref;
 }
 
-sub get_volume_list {
-    my $all = shift || 0;
-    my $args;
+sub get_current_context {
+    my $args = q{context show};
 
-    if ( $all == 1 ) {
-        $args = q{volume list -a --format='{{json .}}'};
-    }
-    else {
-        $args = q{volume list --format='{{json .}}'};
-    }
-
-    my $volumes_ref = pull_info($args);
-    return $volumes_ref;
+    my $ids_ref = pull_info($args);
+    return $ids_ref;
 }
 
-sub inspect_volume {
-    my $id = shift;
+sub get_context_list {
+    my $args = q{context list --format='{{json .}}'};
 
-    my $args = q{volume inspect --format='{{json .}}' };
+    my $contexts_ref = pull_info($args);
+    return $contexts_ref;
+}
+
+sub inspect_context {
+    my $id = shift || 'default';
+
+    my $args = q{context inspect --format='{{json .}}' };
     $args .= $id;
 
-    my $volumes_ref = pull_info($args);
-    return $volumes_ref;
+    my $contexts_ref = pull_info($args);
+    return $contexts_ref;
 }
 
-sub read_volume_ids {
+sub read_context_ids {
     my $file = shift;
 
     unless ( $file =~ m{\.json$} ) {
@@ -62,7 +62,6 @@ sub read_volume_ids {
 }
 
 # read each type of get, send thru filter to extract relevant data
-
 1;    # Magic true value required at end of module
 
 =pod
@@ -71,7 +70,7 @@ sub read_volume_ids {
 
 =head1 NAME
 
-App::Docker::Info::Volume - Gather and Display info about Docker Volumes
+App::Docker::Info::Context - Gather and Display info about Docker Contexts
 
 =head1 VERSION
 
@@ -79,13 +78,14 @@ Version v0.21.0
 
 =head1 SYNOPSIS
 
-    use App::Docker::Info::Volume;
+    use App::Docker::Info::Context;
 
 =head1 EXPORT
 
-    get_volume_ids
-    get_volume_list
-    inspect_volume
+    get_context_ids
+    get_current_context
+    get_context_list
+    inspect_context
 
 =head1 SUBROUTINES
 

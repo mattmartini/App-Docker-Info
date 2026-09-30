@@ -12,7 +12,6 @@ use Data::Printer;
 our $VERSION = version->declare("v0.21.0");
 
 our @EXPORT_OK = qw(
-    get_containers
     get_container_ids
     get_container_list
     inspect_container
@@ -84,7 +83,6 @@ Version v0.21.0
 
 =head1 EXPORT
 
-    get_containers
     get_container_ids
     get_container_list
     inspect_container

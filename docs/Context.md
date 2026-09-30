@@ -1,6 +1,6 @@
 # NAME
 
-App::Docker::Info::Volume - Gather and Display info about Docker Volumes
+App::Docker::Info::Context - Gather and Display info about Docker Contexts
 
 # VERSION
 
@@ -8,13 +8,14 @@ Version v0.21.0
 
 # SYNOPSIS
 
-    use App::Docker::Info::Volume;
+    use App::Docker::Info::Context;
 
 # EXPORT
 
-    get_volume_ids
-    get_volume_list
-    inspect_volume
+    get_context_ids
+    get_current_context
+    get_context_list
+    inspect_context
 
 # SUBROUTINES
 

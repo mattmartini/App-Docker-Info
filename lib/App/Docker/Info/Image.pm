@@ -12,7 +12,6 @@ use Data::Printer;
 our $VERSION = version->declare("v0.21.0");
 
 our @EXPORT_OK = qw(
-    get_images
     get_image_ids
     get_image_list
     inspect_image

@@ -12,7 +12,6 @@ Version v0.21.0
 
 # EXPORT
 
-    get_networks
     get_network_ids
     get_network_list
     inspect_network
