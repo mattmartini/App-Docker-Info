@@ -8,13 +8,51 @@ Version v0.21.0
 
 # SYNOPSIS
 
-    use App::Docker::Info::Image;
+App::Docker::Info::Image - Get info on docker images including list of ids, active images,
+all images, and inspect an image.
+
+    use App::Docker::Info::Image qw(:all);
+
+    my $ids_ref             = get_image_ids();
+    my $image_list_ref      = get_active_image_list();
+    my $all_image_list_ref  = get_all_image_list();
+    my $image_inspect_ref   = inspect_image($id);
 
 # EXPORT
 
-    get_os
+    get_image_ids
+    get_active_image_list
+    get_all_image_list
+    inspect_image
+    read_image_ids
 
 # SUBROUTINES
+
+## **get\_image\_ids**
+
+Return a list of the docker image ids
+
+    my $ids_ref = get_image_ids();
+
+## **get\_active\_image\_list**
+
+Return a list of json data for each active docker image
+
+    my $image_list_ref = get_active_image_list();
+
+## **get\_all\_image\_list**
+
+Return a list of json data for each docker image
+
+    my $all_image_list_ref = get_all_image_list();
+
+## **inspect\_image(ID)**
+
+Return json data for an inspection of the id  
+
+`ID` docker image id to inspect
+
+    my $image_inspect_ref = inspect_image($id);
 
 # AUTHOR
 
@@ -22,7 +60,7 @@ Matt Martini, `<matt at imaginarywave.com>`
 
 # BUGS
 
-Please report any bugs or feature requests to `bug-dev-util at rt.cpan.org`, or through
+Please report any bugs or feature requests to `bug-app-docker-info at rt.cpan.org`, or through
 the web interface at [https://rt.cpan.org/NoAuth/ReportBug.html?Queue=App-Docker-Info](https://rt.cpan.org/NoAuth/ReportBug.html?Queue=App-Docker-Info).  I will
 be notified, and then you'll automatically be notified of progress on your bug as I make changes.
 
