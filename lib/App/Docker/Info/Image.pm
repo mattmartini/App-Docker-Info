@@ -15,6 +15,7 @@ our @EXPORT_OK = qw(
     get_image_ids
     get_image_list
     inspect_image
+    display_image_ids
 );
 
 our %EXPORT_TAGS = ( all => \@EXPORT_OK );
@@ -61,6 +62,12 @@ sub read_image_ids {
     return read_info($file);
 }
 
+sub display_image_ids {
+    my $ids_ref = get_image_ids();
+    printf "%s\n", $_ for $ids_ref->@*;
+    return;
+}
+
 # read each type of get, send thru filter to extract relevant data
 
 1;
@@ -94,6 +101,7 @@ all images, and inspect an image.
     get_image_list
     inspect_image
     read_image_ids
+    display_image_ids
 
 =head1 SUBROUTINES
 

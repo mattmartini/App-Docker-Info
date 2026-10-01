@@ -23,6 +23,7 @@ all images, and inspect an image.
     get_image_list
     inspect_image
     read_image_ids
+    display_image_ids
 
 # SUBROUTINES
 

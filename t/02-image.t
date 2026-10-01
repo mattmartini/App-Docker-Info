@@ -1,6 +1,7 @@
 #!/usr/bin/env perl
 
 use Test2::V0;
+use Test::Output;
 use lib 'lib';
 
 use Dev::Util::Syntax;
@@ -8,7 +9,7 @@ use Dev::Util         qw(::Const ::OS);
 use App::Docker::Info qw(::Utils ::Image);
 use Data::Printer;
 
-plan tests => 4;
+plan tests => 5;
 
 #======================================#
 #             docker images            #
@@ -80,5 +81,14 @@ is(
     sort_array_ref($expected_all_image_list_ref),
     "inspect_image"
   );
+
+#======================================#
+#         display_image_ids            #
+#======================================#
+my $expected_display_ids;
+$expected_display_ids .= sprintf "%s\n", $_ for $ids_ref->@*;
+
+stdout_is( \&display_image_ids, $expected_display_ids,
+           "display_image_ids" );
 
 done_testing;
