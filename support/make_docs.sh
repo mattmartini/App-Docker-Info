@@ -2,6 +2,8 @@
 
 set -Eeuo pipefail
 
+source ${BASH_FUNCTION_DIR}/color_fns.sh
+
 # namename prints the basename without extension
 namename() {
   local name=${1##*/}
@@ -10,7 +12,7 @@ namename() {
 }
 
 # Update API Docs
-echo -n "Updating Module docs..."
+printf '%s\n' "${Blue}Updating Module docs...${NC}"
 
 rm -rf docs/*
 for i in lib/App/Docker/Info.pm lib/App/Docker/Info/*pm
@@ -18,27 +20,27 @@ do
   j=$(namename "${i}")
   pod2markdown "${i}" > "docs/${j}.md"
 done
-echo "done"
+printf "%s\n" "${Green}done${NC}"
 
-echo -n "Updating Manifest..."
+printf '%s\n' "${Blue}Updating Manifest...${NC}"
 if [[ -e 'MANIFEST' ]]; then
   rm MANIFEST
 fi
 make manifest
-echo "done"
+printf "%s\n" "${Green}done${NC}"
 
 # Update Changelog
-echo -n "Updating Changelog..."
+printf '%s\n' "${Blue}Updating Changelog...${NC}"
 if [[ -e 'CHANGELOG.md' ]]; then
   rm CHANGELOG.md
 fi
 git cliff > CHANGELOG.md
-echo "done"
+printf "%s\n" "${Green}done${NC}"
 
-echo -n "Updating Signatures..."
+printf '%s\n' "${Blue}Updating Signatures...${NC}"
 if [[ -e 'SIGNATURE' ]]; then
   rm SIGNATURE
 fi
 make signature
-echo "done"
+printf "%s\n" "${Green}done${NC}"
 
