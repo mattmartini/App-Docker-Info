@@ -25,6 +25,7 @@ App::Docker::Info::Utils - Support utilities for getting docker info, converting
     read_info
     sort_array_ref
     json_to_hash_ref
+    aoj_to_aoh
 
 # SUBROUTINES
 
@@ -59,6 +60,14 @@ indeterminate order, this functions normalizes the order so tests can pass
 Takes a `JSON` string and returns a hash ref of it. 
 
     my $hash_ref = json_to_hash_ref($json);
+
+## **aoj\_to\_aoh(AOJ)**
+
+Convert an array of json data to an array of hashes
+
+`AOJ` A reference to an array of json data
+
+    my $aoh = aoj_to_aoh($aoj);
 
 # AUTHOR
 

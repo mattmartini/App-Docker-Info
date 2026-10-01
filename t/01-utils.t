@@ -12,7 +12,7 @@ use JSON::MaybeXS;
 
 use Data::Printer;
 
-plan tests => 5;
+plan tests => 6;
 
 #======================================#
 #            get_docker_cmd            #
@@ -86,5 +86,25 @@ my $student_json
 my $student_hash = json_to_hash_ref($student_json);
 
 is( $expected_student_hash, $student_hash, 'json_to_hash_ref' );
+
+#======================================#
+#          aoj_to_aoh                  #
+#======================================#
+# Array of json to Array of Hashes
+
+my $expected_aoh = [
+                     { name => 'Joe Cool',        address => '555 Dogouse Way' },
+                     { name => 'Patek Philippe',  address => 'Geneve' },
+                     { name => 'Vincent vanGogh', address => 'Arles' },
+                   ];
+
+my @aoj;
+$aoj[0] = q/{"address":"555 Dogouse Way","name":"Joe Cool"}/;
+$aoj[1] = q/{"address":"Geneve","name":"Patek Philippe"}/;
+$aoj[2] = q/{"address":"Arles","name":"Vincent vanGogh"}/;
+
+my $aoh = aoj_to_aoh( \@aoj );
+
+is( $aoh, $expected_aoh, 'aoj_to_aoh' );
 
 done_testing;

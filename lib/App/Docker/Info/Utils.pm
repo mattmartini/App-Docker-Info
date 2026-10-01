@@ -16,6 +16,7 @@ our @EXPORT_OK = qw(
     read_info
     sort_array_ref
     json_to_hash_ref
+    aoj_to_aoh
 );
 
 our %EXPORT_TAGS = ( all => \@EXPORT_OK );
@@ -65,6 +66,18 @@ sub json_to_hash_ref {
     return $hash_ref;
 }
 
+sub aoj_to_aoh {
+    my $aoj = shift;
+    my @aoh;
+    
+    foreach my $json ($aoj->@*) {
+        push @aoh, json_to_hash_ref($json);
+    }
+    return \@aoh;
+}
+
+
+
 1;    # Magic true value required at end of module
 
 =pod
@@ -98,6 +111,7 @@ App::Docker::Info::Utils - Support utilities for getting docker info, converting
     read_info
     sort_array_ref
     json_to_hash_ref
+    aoj_to_aoh
 
 =head1 SUBROUTINES
 
@@ -132,6 +146,15 @@ indeterminate order, this functions normalizes the order so tests can pass
 Takes a C<JSON> string and returns a hash ref of it. 
 
     my $hash_ref = json_to_hash_ref($json);
+
+=head2 B<aoj_to_aoh(AOJ)>
+
+Convert an array of json data to an array of hashes
+
+C<AOJ> A reference to an array of json data
+
+    my $aoh = aoj_to_aoh($aoj);
+
 
 =head1 AUTHOR
 
