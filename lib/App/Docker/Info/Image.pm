@@ -7,7 +7,7 @@ use App::Docker::Info qw(::Utils);
 use Exporter qw(import);
 
 use IPC::Cmd        qw[can_run run];
-use Term::ANSIColor qw(color colored);
+use Term::ANSIColor qw(color colored :constants256 RESET);
 use Data::Printer;
 
 our $VERSION = version->declare("v0.21.0");
@@ -119,10 +119,13 @@ sub display_image_list {
         }
         if ( $image_ref->{ Image } ne $prevImage || $image_ref->{ Tag } ne $prevTag )
         {
-            print colored( ['blue'],
+            my $hilite = $image_ref->{ Containers } > 0 ? 'blue' : 'ANSI247';
+            print colored(
+                           [$hilite],
                            sprintf "    %s:%s\n",
                            $image_ref->{ Image },
-                           $image_ref->{ Tag } );
+                           $image_ref->{ Tag }
+                         );
         }
 
         printf "      %s\t%s\t%s\t",
@@ -131,7 +134,8 @@ sub display_image_list {
             $image_ref->{ Size };
         print colored( ['bright_black on_green'], sprintf "%s",
                        $image_ref->{ Containers } > 0 ? $image_ref->{ Containers } : '' );
-        print "\n";
+        say q{};
+
         $prevRegistry = $image_ref->{ Registry };
         $prevOwner    = $image_ref->{ Owner };
         $prevImage    = $image_ref->{ Image };
