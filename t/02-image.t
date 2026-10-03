@@ -91,4 +91,10 @@ $expected_display_ids .= sprintf "%s\n", $_ for $ids_ref->@*;
 stdout_is( \&display_image_ids, $expected_display_ids,
            "display_image_ids" );
 
+#======================================#
+#         display_image_ids            #
+#======================================#
+
+display_image_list(1);
+
 done_testing;

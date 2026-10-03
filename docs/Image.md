@@ -24,6 +24,7 @@ all images, and inspect an image.
     inspect_image
     read_image_ids
     display_image_ids
+    display_image_list
 
 # SUBROUTINES
 
@@ -48,6 +49,18 @@ Return json data for an inspection of the id
 `ID` docker image id to inspect
 
     my $image_inspect_ref = inspect_image($id);
+
+## **display\_image\_ids**
+
+Display a list of the image ids
+
+    display_image_ids;
+
+## **display\_image\_list**
+
+Display info for each image
+
+    display_image_list;
 
 # AUTHOR
 

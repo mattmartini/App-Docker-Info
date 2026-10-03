@@ -6,7 +6,8 @@ use App::Docker::Info qw(::Utils);
 
 use Exporter qw(import);
 
-use IPC::Cmd qw[can_run run];
+use IPC::Cmd        qw[can_run run];
+use Term::ANSIColor qw(color colored);
 use Data::Printer;
 
 our $VERSION = version->declare("v0.21.0");
@@ -16,6 +17,7 @@ our @EXPORT_OK = qw(
     get_image_list
     inspect_image
     display_image_ids
+    display_image_list
 );
 
 our %EXPORT_TAGS = ( all => \@EXPORT_OK );
@@ -68,6 +70,77 @@ sub display_image_ids {
     return;
 }
 
+sub display_image_list {
+    my $all = shift || 0;
+
+    my $images_ref       = get_image_list($all);
+    my $images_array_ref = aoj_to_aoh($images_ref);
+
+    foreach my $image_ref ( $images_array_ref->@* ) {
+
+        my @matches = $image_ref->{ Repository } =~ m{([^/]+)/?}g;
+        if ( scalar @matches == 1 ) {
+            $image_ref->{ Registry } = 'docker.io';
+            $image_ref->{ Owner }    = 'library';
+            $image_ref->{ Image }    = $matches[0];
+        }
+        elsif ( scalar @matches == 2 ) {
+            $image_ref->{ Registry } = 'docker.io';
+            $image_ref->{ Owner }    = $matches[0];
+            $image_ref->{ Image }    = $matches[1];
+        }
+        elsif ( scalar @matches == 3 ) {
+            $image_ref->{ Registry } = $matches[0];
+            $image_ref->{ Owner }    = $matches[1];
+            $image_ref->{ Image }    = $matches[2];
+        }
+        else {
+            carp "Bad registry\n";
+        }
+    }
+
+    my ( $prevRegistry, $prevOwner, $prevImage, $prevTag )
+        = ( q{}, q{}, q{}, q{} );
+    foreach my $image_ref (
+                            sort {
+                                   $a->{ Registry } cmp $b->{ Registry }
+                                || $a->{ Owner }    cmp $b->{ Owner }
+                                || $a->{ Image }    cmp $b->{ Image }
+                                || $a->{ Tag }      cmp $b->{ Tag }
+                            } $images_array_ref->@*
+                          )
+    {
+        local $Term::ANSIColor::AUTORESET = 1;
+        if ( $image_ref->{ Registry } ne $prevRegistry ) {
+            print colored( ['green'], sprintf "%s\n", $image_ref->{ Registry } );
+        }
+        if ( $image_ref->{ Owner } ne $prevOwner ) {
+            print colored( ['yellow'], sprintf "  %s\n", $image_ref->{ Owner } );
+        }
+        if ( $image_ref->{ Image } ne $prevImage || $image_ref->{ Tag } ne $prevTag )
+        {
+            print colored( ['blue'],
+                           sprintf "    %s:%s\n",
+                           $image_ref->{ Image },
+                           $image_ref->{ Tag } );
+        }
+
+        printf "      %s\t%s\t%s\t",
+            $image_ref->{ ID },
+            $image_ref->{ CreatedSince },
+            $image_ref->{ Size };
+        print colored( ['bright_black on_green'], sprintf "%s",
+                       $image_ref->{ Containers } > 0 ? $image_ref->{ Containers } : '' );
+        print "\n";
+        $prevRegistry = $image_ref->{ Registry };
+        $prevOwner    = $image_ref->{ Owner };
+        $prevImage    = $image_ref->{ Image };
+        $prevTag      = $image_ref->{ Tag };
+    }
+
+    return;
+}
+
 # read each type of get, send thru filter to extract relevant data
 
 1;
@@ -102,6 +175,7 @@ all images, and inspect an image.
     inspect_image
     read_image_ids
     display_image_ids
+    display_image_list
 
 =head1 SUBROUTINES
 
@@ -126,6 +200,18 @@ Return json data for an inspection of the id
 C<ID> docker image id to inspect
 
     my $image_inspect_ref = inspect_image($id);
+
+=head2 B<display_image_ids>
+
+Display a list of the image ids
+
+    display_image_ids;
+
+=head2 B<display_image_list>
+
+Display info for each image
+
+    display_image_list;
 
 =head1 AUTHOR
 
