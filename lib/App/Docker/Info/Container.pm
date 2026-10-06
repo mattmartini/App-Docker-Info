@@ -31,10 +31,10 @@ sub get_container_list {
     my $args;
 
     if ( $all == 1 ) {
-        $args = q{container list -a --format='{{json .}}'};
+        $args = q{container list -a --no-trunc --format='{{json .}}'};
     }
     else {
-        $args = q{container list --format='{{json .}}'};
+        $args = q{container list --no-trunc --format='{{json .}}'};
     }
 
     my $containers_ref = pull_info($args);

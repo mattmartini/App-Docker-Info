@@ -41,7 +41,7 @@ is(
 #======================================#
 #        get_container_list            #
 #======================================#
-$args = q{container list --format='{{json .}}'};
+$args = q{container list --no-trunc --format='{{json .}}'};
 
 my $expected_container_list_ref = ipc_run($args);
 my $container_list_ref          = get_container_list(0);
@@ -53,7 +53,7 @@ is(
     "get_container_list - active only"
   );
 
-$args = q{container list -a --format='{{json .}}'};
+$args = q{container list -a --no-trunc --format='{{json .}}'};
 
 my $expected_all_container_list_ref = ipc_run($args);
 my $all_container_list_ref          = get_container_list(1);
