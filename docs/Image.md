@@ -25,6 +25,7 @@ all images, and inspect an image.
     read_image_ids
     display_image_ids
     display_image_list
+    display_image_inspect
 
 # SUBROUTINES
 
@@ -44,7 +45,7 @@ Return a list of json data for each active docker image
 
 ## **inspect\_image(ID)**
 
-Return json data for an inspection of the id  
+Return json data for an inspection of the id
 
 `ID` docker image id to inspect
 

@@ -42,7 +42,7 @@ is(
 #======================================#
 #        get_image_list                #
 #======================================#
-$args = q{image list --format='{{json .}}'};
+$args = q{image list --no-trunc --format='{{json .}}'};
 
 my $expected_image_list_ref = ipc_run($args);
 my $image_list_ref          = get_image_list(0);
@@ -54,7 +54,7 @@ is(
     "get_image_list - active only"
   );
 
-$args = q{image list -a --format='{{json .}}'};
+$args = q{image list -a --no-trunc --format='{{json .}}'};
 
 my $expected_all_image_list_ref = ipc_run($args);
 my $all_image_list_ref          = get_image_list(1);
@@ -68,17 +68,18 @@ is(
 #======================================#
 #            inspect_image             #
 #======================================#
-$args = q{image inspect --format='{{json .}} '};
-my $id = $ids_ref->[0];
+$args = q{image inspect };
+my $id = $ids_ref->[1];
 $args .= $id;
+$args .= q{ --format='{{json .}}'};
 
 my $expected_image_inspect_ref = ipc_run($args);
 my $image_inspect_ref          = inspect_image($id);
 
 # p $image_inspect_ref;
 is(
-    sort_array_ref($all_image_list_ref),
-    sort_array_ref($expected_all_image_list_ref),
+    sort_array_ref($image_inspect_ref),
+    sort_array_ref($expected_image_inspect_ref),
     "inspect_image"
   );
 
@@ -96,5 +97,12 @@ stdout_is( \&display_image_ids, $expected_display_ids,
 #======================================#
 
 display_image_list(1);
+
+#======================================#
+#         display_image_inspect        #
+#======================================#
+foreach my $iid ($ids_ref->@*) {
+display_image_inspect($iid);
+}
 
 done_testing;

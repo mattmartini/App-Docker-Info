@@ -18,6 +18,7 @@ our @EXPORT_OK = qw(
     inspect_image
     display_image_ids
     display_image_list
+    display_image_inspect
 );
 
 our %EXPORT_TAGS = ( all => \@EXPORT_OK );
@@ -34,10 +35,10 @@ sub get_image_list {
     my $args;
 
     if ( $all == 1 ) {
-        $args = q{image list -a --format='{{json .}}'};
+        $args = q{image list -a --no-trunc --format='{{json .}} '};
     }
     else {
-        $args = q{image list --format='{{json .}}'};
+        $args = q{image list --no-trunc --format='{{json .}} '};
     }
 
     my $images_ref = pull_info($args);
@@ -47,8 +48,9 @@ sub get_image_list {
 sub inspect_image {
     my $id = shift;
 
-    my $args = q{image inspect --format='{{json .}}' };
+    my $args = q{image inspect };
     $args .= $id;
+    $args .= q{ --format='{{json .}}'};
 
     my $images_ref = pull_info($args);
     return $images_ref;
@@ -110,36 +112,210 @@ sub display_image_list {
                             } $images_array_ref->@*
                           )
     {
-        local $Term::ANSIColor::AUTORESET = 1;
-        if ( $image_ref->{ Registry } ne $prevRegistry ) {
-            print colored( ['green'], sprintf "%s\n", $image_ref->{ Registry } );
-        }
-        if ( $image_ref->{ Owner } ne $prevOwner ) {
-            print colored( ['yellow'], sprintf "  %s\n", $image_ref->{ Owner } );
-        }
-        if ( $image_ref->{ Image } ne $prevImage || $image_ref->{ Tag } ne $prevTag )
-        {
-            my $hilite = $image_ref->{ Containers } > 0 ? 'blue' : 'ANSI247';
-            print colored(
-                           [$hilite],
-                           sprintf "    %s:%s\n",
-                           $image_ref->{ Image },
-                           $image_ref->{ Tag }
-                         );
-        }
+        my @values;
+        $values[0]
+            = { val   => $image_ref->{ Registry },
+                cond  => $image_ref->{ Registry } ne $prevRegistry,
+                color => 'green',
+                fmt   => "%s\n"
+              };
 
-        printf "      %s\t%s\t%s\t",
-            $image_ref->{ ID },
-            $image_ref->{ CreatedSince },
-            $image_ref->{ Size };
-        print colored( ['bright_black on_green'], sprintf "%s",
-                       $image_ref->{ Containers } > 0 ? $image_ref->{ Containers } : '' );
-        say q{};
+        $values[1]
+            = { val   => $image_ref->{ Owner },
+                cond  => $image_ref->{ Owner } ne $prevOwner,
+                color => 'yellow',
+                fmt   => "  %s\n"
+              };
+
+        $values[2]
+            = { val  => $image_ref->{ Image } . ':' . $image_ref->{ Tag },
+                cond => $image_ref->{ Image } ne $prevImage
+                || $image_ref->{ Tag } ne $prevTag,
+                color => $image_ref->{ Containers } > 0 ? 'blue' : 'ANSI247',
+                fmt   => "    %s\n"
+              };
+
+        my $shortID
+            = $image_ref->{ ID } =~ s{^sha256:([[:xdigit:]]{12})[[:xdigit:]]+}{$1}r;
+        $values[3]
+            = { val => $shortID,
+                fmt => "      %12s"
+              };
+        $values[4]
+            = { val => $image_ref->{ CreatedSince },
+                fmt => "%18s"
+              };
+        $values[5]
+            = { val => $image_ref->{ Size },
+                fmt => "%10s  "
+              };
+        $values[6]
+            = { val   => $image_ref->{ Containers },
+                cond  => $image_ref->{ Containers } > 0,
+                color => 'bright_black on_green',
+                fmt   => "%s"
+              };
+
+        display_params( \@values );
+        print "\n";
 
         $prevRegistry = $image_ref->{ Registry };
         $prevOwner    = $image_ref->{ Owner };
         $prevImage    = $image_ref->{ Image };
         $prevTag      = $image_ref->{ Tag };
+
+    }
+
+    return;
+}
+
+sub display_image_inspect {
+    my $id              = shift;
+    my $image_array_ref = inspect_image($id);
+    my $inspect_ref     = aoj_to_aoh($image_array_ref);
+
+    # p $inspect_ref;
+    say q{};
+    foreach my $image_ref ( $inspect_ref->@* ) {
+        my @values;
+
+        my $repository = $image_ref->{ Identity }->{ Pull }->[0]->{ Repository };
+        if ( !defined $repository ) {
+            $repository = $image_ref->{ RepoTags }->[0];
+        }
+        my @matches = $repository =~ m{([^/]+)/?}g;
+        if ( scalar @matches == 1 ) {
+            $image_ref->{ Registry } = 'docker.io';
+            $image_ref->{ Owner }    = 'library';
+            $image_ref->{ Image }    = $matches[0];
+        }
+        elsif ( scalar @matches == 2 ) {
+            $image_ref->{ Registry } = 'docker.io';
+            $image_ref->{ Owner }    = $matches[0];
+            $image_ref->{ Image }    = $matches[1];
+        }
+        elsif ( scalar @matches == 3 ) {
+            $image_ref->{ Registry } = $matches[0];
+            $image_ref->{ Owner }    = $matches[1];
+            $image_ref->{ Image }    = $matches[2];
+        }
+        else {
+            carp "Bad registry\n";
+        }
+
+        my $shortID
+            = $image_ref->{ Id } =~ s{^sha256:([[:xdigit:]]{12})[[:xdigit:]]+}{$1}r;
+        push @values,
+            {  val   => $shortID,
+               color => 'cyan',
+               fmt   => "%s"
+            };
+
+        push @values,
+            {  val =>
+               $image_ref->{ Config }->{ Labels }->{ 'org.opencontainers.image.title' },
+               cond =>
+               defined $image_ref->{ Config }->{ Labels }
+               ->{ 'org.opencontainers.image.title' },
+               color => 'cyan',
+               fmt   => "  -  %s"
+            };
+
+        push @values,
+            {  val =>
+               $image_ref->{ Config }->{ Labels }->{ 'org.opencontainers.image.version' },
+               cond =>
+               defined $image_ref->{ Config }->{ Labels }
+               ->{ 'org.opencontainers.image.version' },
+               color => 'cyan',
+               fmt   => "   %s"
+            };
+
+        push @values,
+            {  val =>
+               $image_ref->{ Config }->{ Labels }->{ 'org.opencontainers.image.version' },
+               cond  => defined $image_ref->{ Config }->{ Labels }->{ service },
+               color => 'cyan',
+               fmt   => "  - %s\n"
+            };
+
+        push @values,
+            {  val  => q{ },
+               cond => !defined $image_ref->{ Config }->{ Labels }->{ service },
+               fmt  => "%s\n"
+            };
+
+        push @values,
+            {  val   => $image_ref->{ Registry },
+               color => 'green',
+               fmt   => "  %s/"
+            };
+
+        push @values,
+            {  val   => $image_ref->{ Owner },
+               color => 'yellow',
+               fmt   => "%s/"
+            };
+
+        push @values,
+            ## = { val   => $image_ref->{ Image } . ':' . $image_ref->{ Tag },
+            {  val   => $image_ref->{ Image },
+               color => scalar $image_ref->{ RepoTags } > 0 ? 'blue' : 'ANSI247',
+               fmt   => "%s"
+            };
+
+        push @values,
+            {  val  => $image_ref->{ Author },
+               cond => defined $image_ref->{ Author },
+               fmt  => "  -  %s\n"
+            };
+
+        push @values,
+            {  val  => q{ },
+               cond => !defined $image_ref->{ Author },
+               fmt  => "%s\n"
+            };
+
+        my $repotags = join "\n    ", $image_ref->{ RepoTags }->@*;
+        push @values,
+            {  val => $repotags,
+               fmt => "    %s\n"
+            };
+
+        push @values,
+            {  val  => $image_ref->{ Architecture },
+               cond => defined $image_ref->{ Architecture },
+               fmt  => "  %s"
+            };
+
+        push @values,
+            {  val  => $image_ref->{ Os },
+               cond => defined $image_ref->{ Os },
+               fmt  => "  %s"
+            };
+
+        my $sizeM = $image_ref->{ Size } / 1e6;
+        push @values,
+            {  val  => $sizeM,
+               cond => defined $image_ref->{ Size },
+               fmt  => "  %sM"
+            };
+
+        push @values,
+            {  val  => $image_ref->{ Created },
+               cond => defined $image_ref->{ Created },
+               fmt  => "  %s\n"
+            };
+
+        my $exposed_ports = join "\n    ",
+            keys $image_ref->{ Config }->{ ExposedPorts }->%*;
+        push @values,
+            {  val  => $exposed_ports,
+               cond => $exposed_ports ne q{},
+               fmt  => "  %s\n"
+            };
+
+        display_params( \@values );
     }
 
     return;
@@ -180,6 +356,7 @@ all images, and inspect an image.
     read_image_ids
     display_image_ids
     display_image_list
+    display_image_inspect
 
 =head1 SUBROUTINES
 
@@ -199,7 +376,7 @@ C<ALL> get all images (1) or active only images (0, default)
 
 =head2 B<inspect_image(ID)>
 
-Return json data for an inspection of the id  
+Return json data for an inspection of the id
 
 C<ID> docker image id to inspect
 
