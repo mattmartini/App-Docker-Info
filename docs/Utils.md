@@ -26,6 +26,7 @@ App::Docker::Info::Utils - Support utilities for getting docker info, converting
     sort_array_ref
     json_to_hash_ref
     aoj_to_aoh
+    display_params
 
 # SUBROUTINES
 
@@ -68,6 +69,16 @@ Convert an array of json data to an array of hashes
 `AOJ` A reference to an array of json data
 
     my $aoh = aoj_to_aoh($aoj);
+
+## **display\_params(PARAMS\_ARR\_REF)**
+
+Display parameters from an array of hashes.  The hashes contain the value (`val`), 
+condition (`cond`) whether it should be displayed, the color (`color`) it should be
+displayed in, and the printf format (`fmt`)
+
+`PARAMS_ARRAY_REF` A reference to array containg hashes as described above
+
+    display_params($param_arr_ref);
 
 # AUTHOR
 

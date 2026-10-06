@@ -7,6 +7,9 @@ use Dev::Util::File qw(read_list);
 use Exporter qw(import);
 use IPC::Cmd qw(can_run run);
 use JSON::MaybeXS;
+use Term::ANSIColor qw(color colored :constants256 RESET);
+
+use Data::Printer;
 
 our $VERSION = version->declare("v0.21.0");
 
@@ -17,6 +20,7 @@ our @EXPORT_OK = qw(
     sort_array_ref
     json_to_hash_ref
     aoj_to_aoh
+    display_params
 );
 
 our %EXPORT_TAGS = ( all => \@EXPORT_OK );
@@ -69,14 +73,27 @@ sub json_to_hash_ref {
 sub aoj_to_aoh {
     my $aoj = shift;
     my @aoh;
-    
-    foreach my $json ($aoj->@*) {
+
+    foreach my $json ( $aoj->@* ) {
         push @aoh, json_to_hash_ref($json);
     }
     return \@aoh;
 }
 
-
+sub display_params {
+    my $params_ref = shift;
+    local $Term::ANSIColor::AUTORESET = 1;
+    foreach my $param ( $params_ref->@* ) {
+        my $cond  = defined $param->{ cond }  ? $param->{ cond }  : 1;
+        my $color = defined $param->{ color } ? $param->{ color } : 'grey11';
+        my $fmt   = defined $param->{ fmt }   ? $param->{ fmt }   : "%s";
+        my $val   = defined $param->{ val }   ? $param->{ val }   : q{};
+        if ($cond) {
+            print colored( [$color], sprintf($fmt, $val) );
+        }
+    }
+    return;
+}
 
 1;    # Magic true value required at end of module
 
@@ -112,6 +129,7 @@ App::Docker::Info::Utils - Support utilities for getting docker info, converting
     sort_array_ref
     json_to_hash_ref
     aoj_to_aoh
+    display_params
 
 =head1 SUBROUTINES
 
@@ -155,6 +173,15 @@ C<AOJ> A reference to an array of json data
 
     my $aoh = aoj_to_aoh($aoj);
 
+=head2 B<display_params(PARAMS_ARR_REF)>
+
+Display parameters from an array of hashes.  The hashes contain the value (C<val>), 
+condition (C<cond>) whether it should be displayed, the color (C<color>) it should be
+displayed in, and the printf format (C<fmt>)
+
+C<PARAMS_ARRAY_REF> A reference to array containg hashes as described above
+
+    display_params($param_arr_ref);
 
 =head1 AUTHOR
 

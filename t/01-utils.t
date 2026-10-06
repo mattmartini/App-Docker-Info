@@ -1,6 +1,7 @@
 #!/usr/bin/env perl
 
 use Test2::V0;
+use Test::Output;
 use lib 'lib';
 
 use Dev::Util::Syntax;
@@ -12,7 +13,7 @@ use JSON::MaybeXS;
 
 use Data::Printer;
 
-plan tests => 6;
+plan tests => 7;
 
 #======================================#
 #            get_docker_cmd            #
@@ -106,5 +107,48 @@ $aoj[2] = q/{"address":"Arles","name":"Vincent vanGogh"}/;
 my $aoh = aoj_to_aoh( \@aoj );
 
 is( $aoh, $expected_aoh, 'aoj_to_aoh' );
+
+#======================================#
+#          display_params              #
+#======================================#
+
+my $expected_display_params = q{[34m 0017 [0m[38;5;243m              show me
+ [0m[31m         12 [0m[32m         77
+ [0m};
+
+my @values;
+$values[0]
+    = { val   => 17,
+        cond  => 1,
+        color => 'blue',
+        fmt   => qq{ %0.4d }
+      };
+$values[1]
+    = { val   => q{don't display me},
+        cond  => 0,
+        color => 'blue',
+        fmt   => qq{ %s\n }
+      };
+$values[2]
+    = { val => q{show me},
+        fmt => qq{ %20s\n }
+      };
+$values[3]
+    = { val   => 12,
+        cond  => 12 > 5,
+        color => 'red',
+        fmt   => qq{ %10d }
+      };
+$values[4]
+    = { val   => 77,
+        color => 'green',
+        fmt   => qq{ %10d\n }
+      };
+
+sub display_test {
+    display_params( \@values );
+    return;
+}
+stdout_is( \&display_test, $expected_display_params, "display_params" );
 
 done_testing;
