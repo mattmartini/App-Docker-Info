@@ -15,6 +15,7 @@ our @EXPORT_OK = qw(
     get_volume_ids
     get_volume_list
     inspect_volume
+    display_volume_ids
 );
 
 our %EXPORT_TAGS = ( all => \@EXPORT_OK );
@@ -61,6 +62,13 @@ sub read_volume_ids {
     return read_info($file);
 }
 
+sub display_volume_ids {
+    my $ids_ref = get_volume_ids();
+    printf "%s\n", $_ for $ids_ref->@*;
+    return;
+}
+
+
 # read each type of get, send thru filter to extract relevant data
 
 1;    # Magic true value required at end of module
@@ -86,6 +94,7 @@ Version v0.21.0
     get_volume_ids
     get_volume_list
     inspect_volume
+    display_volume_ids
 
 =head1 SUBROUTINES
 

@@ -15,6 +15,7 @@ Version v0.21.0
     get_volume_ids
     get_volume_list
     inspect_volume
+    display_volume_ids
 
 # SUBROUTINES
 
